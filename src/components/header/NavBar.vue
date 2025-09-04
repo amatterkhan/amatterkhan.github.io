@@ -24,5 +24,5 @@ const hideOnMobileHome = computed(() => isMobile.value && isHome.value);
 </script>
 
 <template>
-  <component v-if="!hideOnMobileHome" :is="isMobile ? NavBarResponsive : NavBarLarge" />
+  <component :is="isMobile ? NavBarResponsive : NavBarLarge" />
 </template>

@@ -37,19 +37,19 @@ onUnmounted(() => {
 <template>
   <header 
     :class="[
-      'w-full z-50 pt-6 pb-2 md:pt-0 md:pb-0',
-      isHome ? 'absolute left-0 right-0 bg-transparent top-2 md:top-0' : 'relative'
+      'w-full z-50 pt-6 pb-2 md:pt-0 md:pb-0 transition-colors duration-200',
+      isHome ? 'fixed left-0 right-0 top-0' : 'relative'
     ]"
     :style="!isHome ? { backgroundColor: 'var(--color-nav-bg)' } : {}"
   >
     <div class="max-w-5xl mx-auto w-full px-6 flex items-center justify-between">
-      <!-- Show gif icon on non-home pages (mobile) -->
+      <!-- Show gif icon on non-home pages -->
       <div class="flex items-center">
         <img v-if="!isHome" src="@/assets/img/PixMeAlone.gif" alt="Pixel Me" class="h-8 w-8" />
       </div>
-      <div class="flex items-center space-x-2">
+      <div class="flex items-center space-x-2" :class="{ 'ml-auto': isHome }">
         <DarkModeToggle />
-        <button class="md:hidden block" @click="toggleMenu" aria-label="Toggle navigation">
+        <button v-if="!isHome" class="md:hidden block" @click="toggleMenu" aria-label="Toggle navigation">
           <font-awesome-icon v-if="!menuOpen" :icon="['fas', 'ellipsis']" size="2x"/>
           <font-awesome-icon v-else :icon="['fas', 'xmark']" size="2x"/>
         </button>
@@ -67,10 +67,10 @@ onUnmounted(() => {
         <li v-if="!isHome">
           <RouterLink to="/" class="hover:underline" style="color: var(--color-text-secondary);" @click="closeMenu">Home</RouterLink>
         </li>
-        <li v-if="!isHome">
+        <li>
           <RouterLink to="/blog" class="hover:underline" style="color: var(--color-text-secondary);" @click="closeMenu">Blog</RouterLink>
         </li>
-        <li v-if="!isHome">
+        <li>
           <RouterLink to="/resume" class="hover:underline" style="color: var(--color-text-secondary);" @click="closeMenu">Resume</RouterLink>
         </li>
       </ul>
