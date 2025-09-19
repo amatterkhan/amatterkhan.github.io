@@ -4,7 +4,6 @@ import BlogView from '../views/BlogView.vue'
 import NotFoundView from '../views/NotFoundView.vue'
 import IndividualPostView from '../views/IndividualPostView.vue'
 import ResumeView from '../views/ResumeView.vue'
-import ExternalRedirect from '../components/ExternalRedirect.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,17 +29,8 @@ const router = createRouter({
             name: 'resume',
             component: ResumeView
         },
-        // Hidden redirect routes
-        {
-            path: '/nightschool',
-            component: ExternalRedirect,
-            props: { url: 'https://mega.nz/folder/PcsiDKiJ#pwVpmb226xsYBaQen3G4kA' }
-        },
-        {
-            path: '/islamicbooks',
-            component: ExternalRedirect,
-            props: { url: 'https://mega.nz/folder/qMkB2DhJ#5it0mHfwbYEnogUwjiWRwA' }
-        },
+        // Hidden redirect routes - handled by 404.html for direct access
+        // These routes are intentionally not defined here to keep them hidden
         // Catch-all route for 404 Not Found
         {
             path: '/:catchAll(.*)',
