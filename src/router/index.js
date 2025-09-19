@@ -32,18 +32,14 @@ const router = createRouter({
         // Hidden redirect routes
         {
             path: '/nightschool',
-            redirect: (to) => {
-                window.location.href =
-                    'https://mega.nz/folder/PcsiDKiJ#pwVpmb226xsYBaQen3G4kA'
-                return false
+            redirect: () => {
+                window.location.href = 'https://mega.nz/folder/PcsiDKiJ#pwVpmb226xsYBaQen3G4kA'
             }
         },
         {
             path: '/islamicbooks',
-            redirect: (to) => {
-                window.location.href =
-                    'https://mega.nz/folder/qMkB2DhJ#5it0mHfwbYEnogUwjiWRwA'
-                return false
+            redirect: () => {
+                window.location.href = 'https://mega.nz/folder/qMkB2DhJ#5it0mHfwbYEnogUwjiWRwA'
             }
         },
         // Catch-all route for 404 Not Found
