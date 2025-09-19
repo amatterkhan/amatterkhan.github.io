@@ -32,13 +32,13 @@ const router = createRouter({
         // Hidden redirect routes
         {
             path: '/nightschool',
-            redirect: () => {
+            beforeEnter: (to, from, next) => {
                 window.location.href = 'https://mega.nz/folder/PcsiDKiJ#pwVpmb226xsYBaQen3G4kA'
             }
         },
         {
             path: '/islamicbooks',
-            redirect: () => {
+            beforeEnter: (to, from, next) => {
                 window.location.href = 'https://mega.nz/folder/qMkB2DhJ#5it0mHfwbYEnogUwjiWRwA'
             }
         },
