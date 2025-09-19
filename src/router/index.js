@@ -4,6 +4,7 @@ import BlogView from '../views/BlogView.vue'
 import NotFoundView from '../views/NotFoundView.vue'
 import IndividualPostView from '../views/IndividualPostView.vue'
 import ResumeView from '../views/ResumeView.vue'
+import ExternalRedirect from '../components/ExternalRedirect.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,15 +33,13 @@ const router = createRouter({
         // Hidden redirect routes
         {
             path: '/nightschool',
-            beforeEnter: (to, from, next) => {
-                window.location.href = 'https://mega.nz/folder/PcsiDKiJ#pwVpmb226xsYBaQen3G4kA'
-            }
+            component: ExternalRedirect,
+            props: { url: 'https://mega.nz/folder/PcsiDKiJ#pwVpmb226xsYBaQen3G4kA' }
         },
         {
             path: '/islamicbooks',
-            beforeEnter: (to, from, next) => {
-                window.location.href = 'https://mega.nz/folder/qMkB2DhJ#5it0mHfwbYEnogUwjiWRwA'
-            }
+            component: ExternalRedirect,
+            props: { url: 'https://mega.nz/folder/qMkB2DhJ#5it0mHfwbYEnogUwjiWRwA' }
         },
         // Catch-all route for 404 Not Found
         {
