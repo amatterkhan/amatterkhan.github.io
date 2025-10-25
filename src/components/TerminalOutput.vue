@@ -2,10 +2,7 @@
   <div class="terminal-output flex-1 p-4 font-terminal text-sm leading-relaxed w-full">
     <div v-for="(line, index) in terminalOutput" :key="index" :class="`text-${line.color}`">
       <span v-if="line.animated" class="terminal-animated">{{ line.text }}</span>
-      <span v-else-if="line.image">
-        {{ line.text }}
-        <img :src="line.image" :alt="line.alt || 'image'" class="inline-block h-6 w-6 ml-2 align-middle" />
-      </span>
+      <span v-else-if="line.isAsciiCat" class="ascii-art">{{ line.text }}</span>
       <span v-else>{{ line.text }}</span>
       <span v-if="line.cursor" class="terminal-cursor">_</span>
     </div>
@@ -14,16 +11,42 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
-import nukoPeekAllSides from '@/assets/img/nukoPeekAllSides.gif'
 import workExpData from '@/data/workExpData.json'
 
 const terminalOutput = ref([])
 const timeouts = []
+let catAnimationInterval = null
 
 const clearTimeouts = () => {
   timeouts.forEach(t => clearTimeout(t))
   timeouts.length = 0
+  if (catAnimationInterval) {
+    clearInterval(catAnimationInterval)
+    catAnimationInterval = null
+  }
 }
+
+// ASCII cat animation frames
+const catFrames = [
+  [
+    '     /\\_/\\  ',
+    '    ( o.o ) '
+  ],
+  [
+    '     /\\_/\\  ',
+    '    ( -.- ) '
+  ],
+  [
+    '     /\\_/\\  ',
+    '    ( o.o ) '
+  ],
+  [
+    '     /\\_/\\  ',
+    '    ( ^.^ ) '
+  ]
+]
+
+let currentCatFrame = 0
 
 // Get current role dynamically
 const currentRole = computed(() => {
@@ -42,7 +65,10 @@ onMounted(() => {
     { text: '', color: 'terminal-green' },
     { text: currentRole.value, color: 'terminal-cyan' },
     { text: 'Passionate about cybersecurity, networking, automation and technology in general.', color: 'terminal-yellow' },
-    { text: 'Oh and I also like Cats!', color: 'terminal-cyan', image: nukoPeekAllSides, alt: 'Cute cat gif' },
+    { text: 'Oh and I also like Cats!', color: 'terminal-cyan' },
+    { text: '', color: 'terminal-green' },
+    { text: catFrames[0][0], color: 'terminal-yellow', isAsciiCat: true, catLineIndex: 0 },
+    { text: catFrames[0][1], color: 'terminal-yellow', isAsciiCat: true, catLineIndex: 1 },
     { text: '', color: 'terminal-green' },
     { text: 'ma-asad@terminal:~$ ls -la', color: 'terminal-green' },
     { text: '', color: 'terminal-green' },
@@ -106,6 +132,9 @@ onMounted(() => {
             terminalOutput.value.push({ ...startupSequence[currentLine] })
             currentLine++
             timeouts.push(setTimeout(continueDisplay, 200))
+          } else {
+            // Start cat animation after all lines are displayed
+            startCatAnimation()
           }
         }
         continueDisplay()
@@ -115,6 +144,20 @@ onMounted(() => {
     
   }, delay))
 })
+
+// Animate the ASCII cat
+const startCatAnimation = () => {
+  catAnimationInterval = setInterval(() => {
+    currentCatFrame = (currentCatFrame + 1) % catFrames.length
+    
+    // Find and update cat lines in terminal output
+    terminalOutput.value.forEach((line, index) => {
+      if (line.isAsciiCat && line.catLineIndex !== undefined) {
+        terminalOutput.value[index].text = catFrames[currentCatFrame][line.catLineIndex]
+      }
+    })
+  }, 800) // Change frame every 800ms
+}
 
 onBeforeUnmount(() => {
   clearTimeouts()
@@ -132,6 +175,10 @@ onBeforeUnmount(() => {
 
 .terminal-animated {
   animation: glow 2s ease-in-out infinite alternate;
+}
+
+.ascii-art {
+  white-space: pre;
 }
 
 .terminal-cursor {
