@@ -11,8 +11,11 @@
           <span class="ml-4 text-terminal-green text-sm">{{ currentPrompt }}</span>
           <span class="terminal-cursor">_</span>
         </div>
-        <div class="text-sm text-terminal-green opacity-75">
-          {{ currentTime }}
+        <div class="flex items-center gap-4">
+          <ThemeSwitcher />
+          <div class="text-sm text-terminal-green opacity-75">
+            {{ currentTime }}
+          </div>
         </div>
       </div>
       
@@ -52,6 +55,7 @@
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import TerminalFooter from './TerminalFooter.vue'
+import ThemeSwitcher from './ThemeSwitcher.vue'
 
 const route = useRoute()
 const currentTime = ref('')

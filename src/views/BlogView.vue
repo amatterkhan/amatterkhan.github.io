@@ -198,7 +198,7 @@ const categories = computed(() => {
             </div>
         </div>
 
-        <div v-if="pinned && pinnedMatchesQuery && currentPage === 1" class="mb-6 p-5 rounded-lg border-2 border-terminal-yellow bg-terminal-bg-secondary hover:shadow-lg hover:shadow-terminal-yellow/20 transition-all duration-200">
+        <div v-if="pinned && pinnedMatchesQuery && currentPage === 1" class="mb-6 p-5 rounded-lg border-2 border-terminal-yellow bg-terminal-bg-secondary transition-all duration-200">
             <div class="flex items-start justify-between gap-3 mb-2">
                 <router-link :to="`/post/${pinned.id}`" class="font-semibold text-lg text-terminal-green hover:text-terminal-cyan transition-colors duration-200 font-terminal">
                     > {{ pinned.title }}
@@ -217,7 +217,7 @@ const categories = computed(() => {
         </div>
 
         <ul class="space-y-4">
-            <li v-for="post in paginatedPosts" :key="post.id" class="p-5 rounded-lg border-2 border-terminal-green bg-terminal-bg-secondary hover:border-terminal-cyan hover:shadow-lg hover:shadow-terminal-green/10 transition-all duration-200">
+            <li v-for="post in paginatedPosts" :key="post.id" class="p-5 rounded-lg border-2 border-terminal-green bg-terminal-bg-secondary hover:border-terminal-cyan transition-all duration-200">
                 <div class="flex items-start justify-between gap-3 mb-2">
                     <router-link :to="`/post/${post.id}`" class="font-medium text-base text-terminal-green hover:text-terminal-cyan transition-colors duration-200 font-terminal">
                         > {{ post.title }}

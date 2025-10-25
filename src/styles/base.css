@@ -164,9 +164,12 @@ nav a:hover {
 .terminal-window {
   background: var(--color-bg-primary);
   border: 1px solid var(--color-border-primary);
-  box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+  box-shadow: 0 0 20px var(--color-border-primary);
   font-family: 'JetBrains Mono', monospace;
 }
+
+.bg-terminal-red { background-color: #ff0000 !important; }
+.bg-terminal-yellow { background-color: #ffff00 !important; }
 
 .terminal-prompt {
   color: var(--color-primary);
@@ -190,10 +193,40 @@ nav a:hover {
   overflow-x: hidden;
 }
 
+/* Terminal color utilities that update with theme */
+.bg-terminal-bg { background-color: var(--color-bg-primary) !important; }
+.bg-terminal-bg-secondary { background-color: var(--color-bg-secondary) !important; }
+.bg-terminal-bg-tertiary { background-color: var(--color-bg-tertiary) !important; }
+
+.text-terminal-green { color: var(--color-text-primary) !important; }
+.text-terminal-cyan { color: var(--color-text-cyan) !important; }
+.text-terminal-yellow { color: var(--color-text-yellow) !important; }
+.text-terminal-red { color: var(--color-error) !important; }
+
+.border-terminal-green { border-color: var(--color-border-primary) !important; }
+.border-terminal-cyan { border-color: var(--color-border-secondary) !important; }
+.border-terminal-yellow { border-color: var(--color-text-yellow) !important; }
+
+.placeholder-terminal-green::placeholder { color: var(--color-text-primary) !important; opacity: 0.4; }
+.placeholder-terminal-green\/40::placeholder { color: var(--color-text-primary) !important; opacity: 0.4; }
+
+.focus\:ring-terminal-cyan:focus { --tw-ring-color: var(--color-text-cyan); }
+.focus\:border-terminal-cyan:focus { border-color: var(--color-text-cyan) !important; }
+
+.hover\:bg-terminal-green:hover { background-color: var(--color-text-primary) !important; }
+.hover\:text-terminal-bg:hover { color: var(--color-bg-primary) !important; }
+.hover\:text-terminal-cyan:hover { color: var(--color-text-cyan) !important; }
+.hover\:border-terminal-cyan:hover { border-color: var(--color-text-cyan) !important; }
+
+.hover\:shadow-terminal-green\/10:hover { box-shadow: 0 10px 15px -3px var(--color-border-primary); opacity: 0.3; }
+.hover\:shadow-terminal-yellow\/20:hover { box-shadow: 0 10px 15px -3px var(--color-text-yellow); opacity: 0.4; }
+.shadow-terminal-green\/20 { box-shadow: 0 10px 15px -3px var(--color-border-primary); }
+.shadow-lg { box-shadow: 0 10px 15px -3px var(--color-border-primary); }
+
 @layer base {
   #app {
     @apply min-h-screen w-full;
-    background: var(--color-bg-primary);
+    background: var(--color-bg-primary) !important;
     color: var(--color-text-primary);
     font-family: 'JetBrains Mono', 'Share Tech Mono', 'Courier New', monospace;
     margin: 0;
@@ -212,7 +245,7 @@ nav a:hover {
 
   /* Terminal base styles */
   body {
-    background: var(--color-bg-primary);
+    background: var(--color-bg-primary) !important;
     color: var(--color-text-primary);
     font-family: 'JetBrains Mono', 'Share Tech Mono', 'Courier New', monospace;
     margin: 0;
@@ -224,7 +257,7 @@ nav a:hover {
 
   /* Apply terminal theme to html element */
   html {
-    background: var(--color-bg-primary);
+    background: var(--color-bg-primary) !important;
     width: 100%;
     height: 100%;
     margin: 0;
@@ -232,11 +265,11 @@ nav a:hover {
   }
 
   html.dark {
-    background: var(--color-bg-primary);
+    background: var(--color-bg-primary) !important;
   }
 
   html.dark body {
-    background: var(--color-bg-primary);
+    background: var(--color-bg-primary) !important;
     color: var(--color-text-primary);
   }
 

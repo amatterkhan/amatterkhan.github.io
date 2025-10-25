@@ -3,6 +3,7 @@ import '@/styles/base.css'
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+import { useTheme } from '@/composables/useTheme'
 
 // Import Font Awesome
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -19,7 +20,10 @@ import {
     faMagnifyingGlass,
     faXmark,
     faThumbTack,
-    faFilter
+    faFilter,
+    faPalette,
+    faArrowLeft,
+    faHashtag
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -38,8 +42,15 @@ library.add(
     faMagnifyingGlass,
     faXmark,
     faThumbTack,
-    faFilter
+    faFilter,
+    faPalette,
+    faArrowLeft,
+    faHashtag
 )
+
+// Initialize theme before mounting app
+const { currentTheme, applyTheme } = useTheme()
+applyTheme(currentTheme.value)
 
 const app = createApp(App)
 

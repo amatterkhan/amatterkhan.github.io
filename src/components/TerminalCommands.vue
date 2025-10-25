@@ -5,21 +5,21 @@
         href="https://github.com/ma-asad"
         target="_blank"
         rel="noopener noreferrer"
-        class="terminal-command-btn inline-flex items-center gap-2 px-4 py-2 border border-terminal-green text-terminal-green hover:bg-terminal-green hover:text-terminal-bg transition-all duration-200 font-terminal group"
+        class="terminal-command-btn inline-flex items-center gap-2 px-4 py-2 border border-terminal-green hover:bg-terminal-green transition-all duration-200 font-terminal group"
       >
-        <font-awesome-icon :icon="['fab', 'github']" class="text-terminal-green group-hover:text-terminal-bg transition-colors duration-200" />
-        <span class="text-terminal-green group-hover:text-terminal-bg transition-colors duration-200">></span>
-        <span>git clone github.com/ma-asad</span>
+        <font-awesome-icon :icon="['fab', 'github']" class="group-hover:text-terminal-bg transition-colors duration-200" />
+        <span class="group-hover:text-terminal-bg transition-colors duration-200">></span>
+        <span class="group-hover:text-terminal-bg transition-colors duration-200">GitHub</span>
       </a>
       <a
         href="https://linkedin.com/in/maatterkhan"
         target="_blank"
         rel="noopener noreferrer"
-        class="terminal-command-btn inline-flex items-center gap-2 px-4 py-2 border border-terminal-cyan text-terminal-cyan hover:bg-terminal-cyan hover:text-terminal-bg transition-all duration-200 font-terminal group"
+        class="terminal-command-btn inline-flex items-center gap-2 px-4 py-2 border border-terminal-green hover:bg-terminal-green transition-all duration-200 font-terminal group"
       >
-        <font-awesome-icon :icon="['fab', 'linkedin']" class="text-terminal-cyan group-hover:text-terminal-bg transition-colors duration-200" />
-        <span class="text-terminal-cyan group-hover:text-terminal-bg transition-colors duration-200">></span>
-        <span>connect linkedin.com/in/maatterkhan</span>
+        <font-awesome-icon :icon="['fab', 'linkedin']" class="group-hover:text-terminal-bg transition-colors duration-200" />
+        <span class="group-hover:text-terminal-bg transition-colors duration-200">></span>
+        <span class="group-hover:text-terminal-bg transition-colors duration-200">LinkedIn</span>
       </a>
     </div>
   </div>

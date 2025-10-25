@@ -79,7 +79,7 @@ onMounted(() => {
       }, i * 80))
     }
     
-    // Type name output with looping effect
+    // Type name output (single time)
     timeouts.push(setTimeout(() => {
       terminalOutput.value.push({ text: '', color: 'terminal-green' })
       const nameIndex = terminalOutput.value.length
@@ -89,25 +89,12 @@ onMounted(() => {
         animated: true 
       })
       
-      // Looping typing animation for the name
-      const typeNameLoop = () => {
-        let charIndex = 0
-        
-        const typeChar = () => {
-          if (charIndex <= fullName.length) {
-            terminalOutput.value[nameIndex].text = fullName.substring(0, charIndex)
-            charIndex++
-            timeouts.push(setTimeout(typeChar, 100))
-          } else {
-            // Wait then restart
-            timeouts.push(setTimeout(typeNameLoop, 2000))
-          }
-        }
-        
-        typeChar()
+      // Type name character by character
+      for (let i = 0; i <= fullName.length; i++) {
+        timeouts.push(setTimeout(() => {
+          terminalOutput.value[nameIndex].text = fullName.substring(0, i)
+        }, i * 100))
       }
-      
-      typeNameLoop()
       
       // Continue with remaining lines after a delay
       timeouts.push(setTimeout(() => {
