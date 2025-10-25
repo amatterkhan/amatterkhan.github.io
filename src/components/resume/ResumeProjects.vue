@@ -26,7 +26,7 @@ const isProjectsOpen = ref(true)
                     <h4 class="text-lg md:text-xl font-semibold mb-2 project-title">
                         {{ project.title }}
                     </h4>
-                    <p class="project-description">{{ project.description }}</p>
+                    <p class="project-description leading-relaxed">{{ project.description }}</p>
 
                     <!-- Display Links with Icons Only -->
                     <div v-if="project.links.length > 0" class="mt-2 flex">
@@ -66,19 +66,19 @@ const isProjectsOpen = ref(true)
 }
 
 .project-title {
-    color: var(--color-text-secondary);
+    color: var(--color-text-highlight);
 }
 
 .project-description {
-    color: var(--color-text-tertiary);
+    color: var(--color-text-content);
 }
 
 .project-link {
-    color: var(--color-text-cyan);
+    color: var(--color-text-accent);
 }
 
 .project-link:hover {
-    color: var(--color-text-primary);
+    color: var(--color-text-highlight);
 }
 
 .cursor-pointer {

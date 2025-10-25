@@ -48,15 +48,15 @@ const sortedCerts = computed(() => [...certsData].sort((a, b) => b.id - a.id))
 }
 
 .cert-link {
-    color: var(--color-text-secondary);
+    color: var(--color-text-highlight);
 }
 
 .cert-link:hover {
-    color: var(--color-text-cyan);
+    color: var(--color-text-accent);
 }
 
 .cert-issuer {
-    color: var(--color-text-tertiary);
+    color: var(--color-text-subtle);
 }
 
 .cursor-pointer {

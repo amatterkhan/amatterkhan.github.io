@@ -45,19 +45,19 @@ const isEducationOpen = ref(true)
 }
 
 .degree-link {
-  color: var(--color-text-secondary);
+  color: var(--color-text-highlight);
 }
 
 .degree-link:hover {
-  color: var(--color-text-cyan);
+  color: var(--color-text-accent);
 }
 
 .education-details {
-  color: var(--color-text-tertiary);
+  color: var(--color-text-content);
 }
 
 .separator {
-  color: var(--color-text-cyan);
+  color: var(--color-text-subtle);
 }
 
 .cursor-pointer {

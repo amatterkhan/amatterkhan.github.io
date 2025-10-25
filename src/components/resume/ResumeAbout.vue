@@ -96,15 +96,15 @@ const skills = computed(() =>
             <span v-else>+</span>
         </h3>
         <div v-if="isAboutOpen" class="section-content space-y-2">
-            <p>
+            <p class="text-terminal-content leading-relaxed">
                 IT and Cybersecurity professional with hands-on experience in system administration, IT support, and
                 cybersecurity. Skilled in managing IT infrastructure across Windows, Linux, and IoT environments. Holds a BSc (Hons) in Computer Science
                 (Systems Engineering) and also a Certified Cybersecurity Technician (CCT) by EC-Council. Passionate about
                 cybersecurity, networking and automation.
             </p>
-            <ul class="list-disc pl-5 space-y-1 marker-cyan">
-                <li v-for="s in skills" :key="s.id">
-                    <strong class="text-terminal-cyan">{{ s.label }}:</strong>
+            <ul class="list-disc pl-5 space-y-1 marker-highlight">
+                <li v-for="s in skills" :key="s.id" class="text-terminal-content">
+                    <strong class="text-terminal-highlight">{{ s.label }}:</strong>
                     <span v-if="s.detail"> {{ s.detail }}</span>
                 </li>
             </ul>
@@ -138,14 +138,14 @@ const skills = computed(() =>
 }
 
 .section-content {
-    color: var(--color-text-tertiary);
+    color: var(--color-text-content);
 }
 
 .section-content strong {
-    color: var(--color-text-cyan);
+    color: var(--color-text-highlight);
 }
 
-.marker-cyan :deep(li::marker) {
-    color: var(--color-text-cyan);
+.marker-highlight :deep(li::marker) {
+    color: var(--color-text-highlight);
 }
 </style>

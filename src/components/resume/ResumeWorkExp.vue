@@ -111,23 +111,23 @@ const displayedExperiences = computed(() => {
 }
 
 .company-name {
-    color: var(--color-text-tertiary);
+    color: var(--color-text-highlight);
 }
 
 .role-title {
-    color: var(--color-text-secondary);
+    color: var(--color-text-accent);
 }
 
 .date-range {
-    color: var(--color-text-cyan);
+    color: var(--color-text-subtle);
 }
 
 .responsibility-list {
-    color: var(--color-text-tertiary);
+    color: var(--color-text-content);
 }
 
 .bullet {
-    color: var(--color-text-cyan);
+    color: var(--color-text-accent);
     font-size: 1rem;
 }
 
@@ -136,7 +136,7 @@ const displayedExperiences = computed(() => {
 }
 
 .timeline-node {
-    background-color: var(--color-text-cyan);
+    background-color: var(--color-text-accent);
 }
 
 .cursor-pointer {
