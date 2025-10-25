@@ -13,8 +13,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 import nukoPeekAllSides from '@/assets/img/nukoPeekAllSides.gif'
+import workExpData from '@/data/workExpData.json'
 
 const terminalOutput = ref([])
 const timeouts = []
@@ -23,6 +24,12 @@ const clearTimeouts = () => {
   timeouts.forEach(t => clearTimeout(t))
   timeouts.length = 0
 }
+
+// Get current role dynamically
+const currentRole = computed(() => {
+  const current = workExpData.find(exp => exp.isCurrent)
+  return current ? `${current.title} at ${current.company}` : ''
+})
 
 onMounted(() => {
   const startupSequence = [
@@ -33,6 +40,7 @@ onMounted(() => {
     { text: '', color: 'terminal-green' },
     { text: 'ma-asad@terminal:~$ cat about.txt', color: 'terminal-green' },
     { text: '', color: 'terminal-green' },
+    { text: currentRole.value, color: 'terminal-cyan' },
     { text: 'Passionate about cybersecurity, networking, automation and technology in general.', color: 'terminal-yellow' },
     { text: 'Oh and I also like Cats!', color: 'terminal-cyan', image: nukoPeekAllSides, alt: 'Cute cat gif' },
     { text: '', color: 'terminal-green' },
