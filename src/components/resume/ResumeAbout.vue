@@ -35,18 +35,6 @@ const skills = computed(() =>
         >
             <p>
                 <a
-                    href="tel:+23058455140"
-                    class="contact-link flex items-center group"
-                >
-                    <font-awesome-icon
-                        :icon="['fas', 'phone']"
-                        class="contact-icon mr-2"
-                    />
-                    +230 5845 5140</a
-                >
-            </p>
-            <p>
-                <a
                     href="mailto:masad.atterkhan@gmail.com"
                     class="contact-link flex items-center group"
                 >

@@ -3,19 +3,51 @@
     <div v-for="(line, index) in terminalOutput" :key="index" :class="`text-${line.color}`">
       <span v-if="line.animated" class="terminal-animated">{{ line.text }}</span>
       <span v-else-if="line.isAsciiCat" class="ascii-art">{{ line.text }}</span>
+      <span v-else-if="line.isLink" class="terminal-link">
+        <a v-if="line.isExternalLink" :href="line.linkTo" target="_blank" rel="noopener noreferrer" class="hover:text-terminal-cyan transition-colors">
+          {{ line.text }}
+        </a>
+        <router-link v-else :to="line.linkTo" class="hover:text-terminal-cyan transition-colors">
+          {{ line.text }}
+        </router-link>
+      </span>
       <span v-else>{{ line.text }}</span>
-      <span v-if="line.cursor" class="terminal-cursor">_</span>
+    </div>
+    
+    <!-- Interactive Command Input -->
+    <div v-if="showInput" class="flex items-center mt-2">
+      <span class="text-terminal-green mr-2">ma-asad@terminal:~$</span>
+      <input
+        ref="commandInput"
+        v-model="currentCommand"
+        @keydown.enter="executeCommand"
+        @keydown.up="navigateHistory(-1)"
+        @keydown.down="navigateHistory(1)"
+        class="flex-1 bg-transparent border-none outline-none text-terminal-green font-terminal"
+        placeholder="type 'help' for available commands"
+        autocomplete="off"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
+import { ref, onMounted, onBeforeUnmount, computed, nextTick } from 'vue'
+import { useRouter } from 'vue-router'
 import workExpData from '@/data/workExpData.json'
+import postData from '@/data/postData.json'
+import projectsData from '@/data/projectsData.json'
+import commandsData from '@/data/commandsData.json'
 
+const router = useRouter()
 const terminalOutput = ref([])
 const timeouts = []
 let catAnimationInterval = null
+const currentCommand = ref('')
+const commandHistory = ref([])
+const historyIndex = ref(-1)
+const showInput = ref(false)
+const commandInput = ref(null)
 
 const clearTimeouts = () => {
   timeouts.forEach(t => clearTimeout(t))
@@ -64,8 +96,8 @@ onMounted(() => {
     { text: 'ma-asad@terminal:~$ cat about.txt', color: 'terminal-green' },
     { text: '', color: 'terminal-green' },
     { text: currentRole.value, color: 'terminal-cyan' },
-    { text: 'Passionate about cybersecurity, networking, automation and technology in general.', color: 'terminal-yellow' },
-    { text: 'Oh and I also like Cats!', color: 'terminal-cyan' },
+    { text: commandsData.about.summary, color: 'terminal-yellow' },
+    { text: commandsData.about.interests, color: 'terminal-cyan' },
     { text: '', color: 'terminal-green' },
     { text: catFrames[0][0], color: 'terminal-yellow', isAsciiCat: true, catLineIndex: 0 },
     { text: catFrames[0][1], color: 'terminal-yellow', isAsciiCat: true, catLineIndex: 1 },
@@ -74,8 +106,7 @@ onMounted(() => {
     { text: '', color: 'terminal-green' },
     { text: 'drwxr-xr-x 2 ma-asad ma-asad 4096 Jan 1 00:00 resume/', color: 'terminal-cyan' },
     { text: 'drwxr-xr-x 2 ma-asad ma-asad 4096 Jan 1 00:00 blog/', color: 'terminal-cyan' },
-    { text: '', color: 'terminal-green' },
-    { text: 'ma-asad@terminal:~$ ', color: 'terminal-green', cursor: true }
+    { text: '', color: 'terminal-green' }
   ]
 
   let currentLine = 0
@@ -133,8 +164,9 @@ onMounted(() => {
             currentLine++
             timeouts.push(setTimeout(continueDisplay, 200))
           } else {
-            // Start cat animation after all lines are displayed
+            // Start cat animation and enable input after all lines are displayed
             startCatAnimation()
+            enableInput()
           }
         }
         continueDisplay()
@@ -159,6 +191,248 @@ const startCatAnimation = () => {
   }, 800) // Change frame every 800ms
 }
 
+// Enable interactive input
+const enableInput = () => {
+  timeouts.push(setTimeout(() => {
+    showInput.value = true
+    nextTick(() => {
+      commandInput.value?.focus()
+    })
+  }, 500))
+}
+
+// Command execution
+const executeCommand = () => {
+  const cmd = currentCommand.value.trim().toLowerCase()
+  if (!cmd) return
+  
+  // Add command to output
+  terminalOutput.value.push({ 
+    text: `ma-asad@terminal:~$ ${currentCommand.value}`, 
+    color: 'terminal-green' 
+  })
+  
+  // Add to history
+  commandHistory.value.push(currentCommand.value)
+  historyIndex.value = commandHistory.value.length
+  
+  // Execute command
+  processCommand(cmd)
+  
+  // Clear input
+  currentCommand.value = ''
+}
+
+// Process commands
+const processCommand = (cmd) => {
+  switch (cmd) {
+    case 'help':
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      terminalOutput.value.push({ text: 'Available commands:', color: 'terminal-cyan' })
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      terminalOutput.value.push({ text: 'Information:', color: 'terminal-highlight' })
+      terminalOutput.value.push({ text: '  whoami    - Display user information', color: 'terminal-content' })
+      terminalOutput.value.push({ text: '  about     - Show about and interests', color: 'terminal-content' })
+      terminalOutput.value.push({ text: '  skills    - List technical skills', color: 'terminal-content' })
+      terminalOutput.value.push({ text: '  contact   - Show contact information', color: 'terminal-content' })
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      terminalOutput.value.push({ text: 'Content:', color: 'terminal-highlight' })
+      terminalOutput.value.push({ text: '  recent    - Show recent blog posts', color: 'terminal-content' })
+      terminalOutput.value.push({ text: '  projects  - List featured projects', color: 'terminal-content' })
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      terminalOutput.value.push({ text: 'Navigation:', color: 'terminal-highlight' })
+      terminalOutput.value.push({ text: '  resume    - Navigate to resume page', color: 'terminal-content' })
+      terminalOutput.value.push({ text: '  blog      - Navigate to blog page', color: 'terminal-content' })
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      terminalOutput.value.push({ text: 'Utility:', color: 'terminal-highlight' })
+      terminalOutput.value.push({ text: '  clear     - Clear the terminal', color: 'terminal-content' })
+      terminalOutput.value.push({ text: '  refresh   - Refresh the page', color: 'terminal-content' })
+      terminalOutput.value.push({ text: '  history   - Show command history', color: 'terminal-content' })
+      terminalOutput.value.push({ text: '  date      - Display current date/time', color: 'terminal-content' })
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      break
+      
+    case 'recent':
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      terminalOutput.value.push({ text: 'Recent blog posts:', color: 'terminal-cyan' })
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      const recentPosts = postData.slice(0, 3)
+      recentPosts.forEach((post, index) => {
+        terminalOutput.value.push({ 
+          text: `${index + 1}. ${post.title}`, 
+          color: 'terminal-highlight',
+          isLink: true,
+          linkTo: `/blog/${post.id}`
+        })
+        terminalOutput.value.push({ 
+          text: `   ${post.date} | ${post.readTime}`, 
+          color: 'terminal-subtle' 
+        })
+      })
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      break
+      
+    case 'clear':
+      terminalOutput.value = []
+      break
+      
+    case 'refresh':
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      terminalOutput.value.push({ text: 'Refreshing page...', color: 'terminal-yellow' })
+      setTimeout(() => window.location.reload(), 500)
+      break
+      
+    case 'whoami':
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      terminalOutput.value.push({ text: 'Mohammad Asad Atterkhan', color: 'terminal-cyan' })
+      break
+      
+    case 'resume':
+      terminalOutput.value.push({ text: 'Navigating to resume...', color: 'terminal-yellow' })
+      setTimeout(() => router.push('/resume'), 500)
+      break
+      
+    case 'blog':
+      terminalOutput.value.push({ text: 'Navigating to blog...', color: 'terminal-yellow' })
+      setTimeout(() => router.push('/blog'), 500)
+      break
+      
+    case 'about':
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      terminalOutput.value.push({ text: currentRole.value, color: 'terminal-cyan' })
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      terminalOutput.value.push({ text: commandsData.about.bio, color: 'terminal-content' })
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      break
+      
+    case 'skills':
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      terminalOutput.value.push({ text: 'Technical Skills:', color: 'terminal-cyan' })
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      commandsData.skills.forEach(skill => {
+        terminalOutput.value.push({ 
+          text: `  • ${skill.category}: ${skill.items}`, 
+          color: 'terminal-content' 
+        })
+      })
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      break
+      
+    case 'contact':
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      terminalOutput.value.push({ text: 'Contact Information:', color: 'terminal-cyan' })
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      terminalOutput.value.push({ 
+        text: `  Email:    ${commandsData.contact.email}`, 
+        color: 'terminal-content',
+        isLink: true,
+        isExternalLink: true,
+        linkTo: `mailto:${commandsData.contact.email}`
+      })
+      terminalOutput.value.push({ 
+        text: `  LinkedIn: ${commandsData.contact.linkedin}`, 
+        color: 'terminal-content',
+        isLink: true,
+        isExternalLink: true,
+        linkTo: `https://${commandsData.contact.linkedin}`
+      })
+      terminalOutput.value.push({ 
+        text: `  GitHub:   ${commandsData.contact.github}`, 
+        color: 'terminal-content',
+        isLink: true,
+        isExternalLink: true,
+        linkTo: `https://${commandsData.contact.github}`
+      })
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      break
+      
+    case 'projects':
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      terminalOutput.value.push({ text: 'Featured Projects:', color: 'terminal-cyan' })
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      projectsData.forEach((project, index) => {
+        terminalOutput.value.push({ 
+          text: `  ${index + 1}. ${project.title}`, 
+          color: 'terminal-highlight' 
+        })
+        terminalOutput.value.push({ 
+          text: `     ${project.description}`, 
+          color: 'terminal-subtle' 
+        })
+        if (index < projectsData.length - 1) {
+          terminalOutput.value.push({ text: '', color: 'terminal-green' })
+        }
+      })
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      terminalOutput.value.push({ text: 'Type "resume" for full project details', color: 'terminal-yellow' })
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      break
+      
+    case 'history':
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      terminalOutput.value.push({ text: 'Command History:', color: 'terminal-cyan' })
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      if (commandHistory.value.length === 0) {
+        terminalOutput.value.push({ text: '  No commands in history yet', color: 'terminal-subtle' })
+      } else {
+        commandHistory.value.forEach((cmd, index) => {
+          terminalOutput.value.push({ 
+            text: `  ${index + 1}. ${cmd}`, 
+            color: 'terminal-content' 
+          })
+        })
+      }
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      break
+      
+    case 'date':
+      const now = new Date()
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      terminalOutput.value.push({ 
+        text: now.toLocaleString('en-US', { 
+          weekday: 'long', 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric', 
+          hour: '2-digit', 
+          minute: '2-digit'
+        }), 
+        color: 'terminal-cyan' 
+      })
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      break
+      
+    default:
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+      terminalOutput.value.push({ 
+        text: `Command not found: ${cmd}. Type 'help' for available commands.`, 
+        color: 'terminal-red' 
+      })
+      terminalOutput.value.push({ text: '', color: 'terminal-green' })
+  }
+  
+  // Scroll to bottom
+  nextTick(() => {
+    const outputEl = document.querySelector('.terminal-output')
+    if (outputEl) {
+      outputEl.scrollTop = outputEl.scrollHeight
+    }
+  })
+}
+
+// Navigate command history
+const navigateHistory = (direction) => {
+  if (commandHistory.value.length === 0) return
+  
+  historyIndex.value = Math.max(0, Math.min(commandHistory.value.length, historyIndex.value + direction))
+  
+  if (historyIndex.value < commandHistory.value.length) {
+    currentCommand.value = commandHistory.value[historyIndex.value]
+  } else {
+    currentCommand.value = ''
+  }
+}
+
 onBeforeUnmount(() => {
   clearTimeouts()
 })
@@ -181,8 +455,22 @@ onBeforeUnmount(() => {
   white-space: pre;
 }
 
-.terminal-cursor {
-  animation: blink 1s infinite;
+.terminal-link {
+  cursor: pointer;
+}
+
+.terminal-link a {
+  text-decoration: none;
+  color: inherit;
+}
+
+input {
+  caret-color: var(--color-text-primary);
+}
+
+input::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.5;
 }
 
 @keyframes glow {
@@ -194,10 +482,5 @@ onBeforeUnmount(() => {
     text-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
     opacity: 1;
   }
-}
-
-@keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
 }
 </style>
