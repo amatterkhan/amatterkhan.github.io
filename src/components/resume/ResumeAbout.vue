@@ -40,7 +40,7 @@ const skills = computed(() =>
                 >
                     <font-awesome-icon
                         :icon="['fas', 'phone']"
-                        class="icon-size mr-2 transition-colors"
+                        class="contact-icon mr-2"
                     />
                     +230 5845 5140</a
                 >
@@ -52,7 +52,7 @@ const skills = computed(() =>
                 >
                     <font-awesome-icon
                         :icon="['fas', 'envelope']"
-                        class="icon-size mr-2 transition-colors"
+                        class="contact-icon mr-2"
                     />
                     masad.atterkhan@gmail.com</a
                 >
@@ -64,7 +64,7 @@ const skills = computed(() =>
                 >
                     <font-awesome-icon
                         :icon="['fab', 'linkedin']"
-                        class="icon-size mr-2 transition-colors"
+                        class="contact-icon mr-2"
                     />
                     LinkedIn
                 </a>
@@ -77,7 +77,7 @@ const skills = computed(() =>
                 >
                     <font-awesome-icon
                         :icon="['fab', 'github']"
-                        class="icon-size mr-2 transition-colors"
+                        class="contact-icon mr-2"
                     />
                     GitHub
                 </a>
@@ -114,8 +114,10 @@ const skills = computed(() =>
 </template>
 
 <style scoped>
-.icon-size {
+.contact-icon {
     transform: scale(1.2);
+    transition: color 0.2s ease;
+    color: inherit;
 }
 
 .cursor-pointer {
@@ -128,11 +130,7 @@ const skills = computed(() =>
 }
 
 .contact-link:hover {
-    color: var(--color-text-cyan);
-}
-
-.contact-link:hover .icon-size {
-    color: var(--color-text-cyan);
+    color: var(--color-link-hover);
 }
 
 .section-heading {
