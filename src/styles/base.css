@@ -29,6 +29,10 @@
   --color-text-cyan: #00ffff;
   --color-text-yellow: #ffff00;
   --color-text-muted: #888888;
+  --color-text-content: #b8f5b8;
+  --color-text-highlight: #00ffff;
+  --color-text-subtle: #66ff66;
+  --color-text-accent: #39ff14;
   
   /* Terminal Border Colors */
   --color-border-primary: #00ff00;
@@ -64,6 +68,10 @@
   --color-text-cyan: #00ffff;
   --color-text-yellow: #ffff00;
   --color-text-muted: #888888;
+  --color-text-content: #b8f5b8;
+  --color-text-highlight: #00ffff;
+  --color-text-subtle: #66ff66;
+  --color-text-accent: #39ff14;
   
   --color-border-primary: #00ff00;
   --color-border-secondary: #00ffff;
@@ -202,6 +210,10 @@ nav a:hover {
 .text-terminal-cyan { color: var(--color-text-cyan) !important; }
 .text-terminal-yellow { color: var(--color-text-yellow) !important; }
 .text-terminal-red { color: var(--color-error) !important; }
+.text-terminal-content { color: var(--color-text-content) !important; }
+.text-terminal-highlight { color: var(--color-text-highlight) !important; }
+.text-terminal-subtle { color: var(--color-text-subtle) !important; }
+.text-terminal-accent { color: var(--color-text-accent) !important; }
 
 .border-terminal-green { border-color: var(--color-border-primary) !important; }
 .border-terminal-cyan { border-color: var(--color-border-secondary) !important; }

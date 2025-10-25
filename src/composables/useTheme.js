@@ -13,7 +13,11 @@ const themes = {
       text: '#00ff00',
       textSecondary: '#ffffff',
       textTertiary: '#cccccc',
-      textMuted: '#888888'
+      textMuted: '#888888',
+      textContent: '#b8f5b8',
+      textHighlight: '#00ffff',
+      textSubtle: '#66ff66',
+      textAccent: '#39ff14'
     }
   },
   'amber': {
@@ -28,7 +32,11 @@ const themes = {
       text: '#ffb000',
       textSecondary: '#ffd700',
       textTertiary: '#cc8800',
-      textMuted: '#996600'
+      textMuted: '#996600',
+      textContent: '#ffcc80',
+      textHighlight: '#ffd700',
+      textSubtle: '#e6a83a',
+      textAccent: '#ff8c00'
     }
   },
   'ibm': {
@@ -43,7 +51,11 @@ const themes = {
       text: '#00d4ff',
       textSecondary: '#ffffff',
       textTertiary: '#8bb9fe',
-      textMuted: '#4a6fa5'
+      textMuted: '#4a6fa5',
+      textContent: '#a8d5ff',
+      textHighlight: '#5af78e',
+      textSubtle: '#6eb8ff',
+      textAccent: '#ff6ac1'
     }
   },
   'dracula': {
@@ -58,7 +70,11 @@ const themes = {
       text: '#50fa7b',
       textSecondary: '#f8f8f2',
       textTertiary: '#8be9fd',
-      textMuted: '#6272a4'
+      textMuted: '#6272a4',
+      textContent: '#a3f7bf',
+      textHighlight: '#bd93f9',
+      textSubtle: '#69fb9a',
+      textAccent: '#8be9fd'
     }
   },
   'cyberpunk': {
@@ -73,7 +89,11 @@ const themes = {
       text: '#ff006e',
       textSecondary: '#ffffff',
       textTertiary: '#00f5ff',
-      textMuted: '#7209b7'
+      textMuted: '#7209b7',
+      textContent: '#ff6bb5',
+      textHighlight: '#8338ec',
+      textSubtle: '#ff3385',
+      textAccent: '#00f5ff'
     }
   },
   'gruvbox': {
@@ -88,7 +108,11 @@ const themes = {
       text: '#b8bb26',
       textSecondary: '#ebdbb2',
       textTertiary: '#8ec07c',
-      textMuted: '#928374'
+      textMuted: '#928374',
+      textContent: '#d5c4a1',
+      textHighlight: '#fabd2f',
+      textSubtle: '#a9b665',
+      textAccent: '#8ec07c'
     }
   },
   'nord': {
@@ -103,7 +127,11 @@ const themes = {
       text: '#88c0d0',
       textSecondary: '#eceff4',
       textTertiary: '#a3be8c',
-      textMuted: '#4c566a'
+      textMuted: '#4c566a',
+      textContent: '#d8dee9',
+      textHighlight: '#81a1c1',
+      textSubtle: '#8fbcbb',
+      textAccent: '#a3be8c'
     }
   }
 }
@@ -138,6 +166,10 @@ const applyTheme = (themeName) => {
   root.style.setProperty('--color-text-cyan', colors.textTertiary)
   root.style.setProperty('--color-text-yellow', colors.yellow)
   root.style.setProperty('--color-text-muted', colors.textMuted)
+  root.style.setProperty('--color-text-content', colors.textContent)
+  root.style.setProperty('--color-text-highlight', colors.textHighlight)
+  root.style.setProperty('--color-text-subtle', colors.textSubtle)
+  root.style.setProperty('--color-text-accent', colors.textAccent)
   
   // Borders
   root.style.setProperty('--color-border-primary', colors.primary)
