@@ -3,17 +3,19 @@
     <!-- Terminal Header with Tabs -->
     <div class="terminal-header bg-terminal-bg-secondary border-b border-terminal-green w-full flex-shrink-0">
       <!-- Terminal Window Controls -->
-      <div class="flex items-center justify-between p-4 border-b border-terminal-green w-full">
-        <div class="flex items-center space-x-2">
-          <div class="w-3 h-3 bg-terminal-red rounded-full"></div>
-          <div class="w-3 h-3 bg-terminal-yellow rounded-full"></div>
-          <div class="w-3 h-3 bg-terminal-green rounded-full"></div>
-          <span class="ml-4 text-terminal-green text-sm">{{ currentPrompt }}</span>
-          <span class="terminal-cursor">_</span>
+      <div class="flex items-center justify-between p-2 sm:p-4 border-b border-terminal-green w-full">
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <div class="w-2 h-2 sm:w-3 sm:h-3 bg-terminal-red rounded-full"></div>
+          <div class="w-2 h-2 sm:w-3 sm:h-3 bg-terminal-yellow rounded-full"></div>
+          <div class="w-2 h-2 sm:w-3 sm:h-3 bg-terminal-green rounded-full"></div>
+          <span class="md:hidden ml-2 text-terminal-green text-xs">{{ mobilePrompt }}</span>
+          <span class="md:hidden terminal-cursor">_</span>
+          <span class="hidden md:inline ml-4 text-terminal-green text-sm">{{ currentPrompt }}</span>
+          <span class="hidden md:inline terminal-cursor">_</span>
         </div>
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2 sm:gap-4">
           <ThemeSwitcher />
-          <div class="text-sm text-terminal-green opacity-75">
+          <div class="text-xs sm:text-sm text-terminal-green opacity-75">
             {{ currentTime }}
           </div>
         </div>
@@ -26,11 +28,11 @@
           :key="tab.name"
           :to="tab.path"
           :class="[
-            'terminal-tab flex-1 px-4 py-3 border-r border-terminal-green transition-all duration-200 text-center',
+            'terminal-tab flex-1 px-2 py-2 sm:px-4 sm:py-3 border-r border-terminal-green transition-all duration-200 text-center text-xs sm:text-base',
             $route.name === tab.name ? 'active bg-terminal-bg text-terminal-green' : 'bg-terminal-bg-secondary text-terminal-green hover:bg-terminal-bg-tertiary hover:text-terminal-cyan'
           ]"
         >
-          <div class="flex items-center justify-center space-x-2">
+          <div class="flex items-center justify-center space-x-1 sm:space-x-2">
             <span class="text-terminal-green">></span>
             <span class="font-terminal">{{ tab.label }}</span>
           </div>
@@ -41,7 +43,7 @@
     <!-- Main Terminal Window -->
     <div class="terminal-main flex-1 flex flex-col w-full relative overflow-hidden">
       <!-- Terminal Content -->
-      <div class="terminal-content flex-1 p-4 md:p-6 w-full pb-52 sm:pb-32 overflow-y-auto">
+      <div class="terminal-content flex-1 p-4 md:p-6 w-full pb-48 sm:pb-28 overflow-y-auto">
         <router-view />
       </div>
     </div>
@@ -79,6 +81,21 @@ const currentPrompt = computed(() => {
       return 'ma-asad@terminal:~/blog$'
     default:
       return basePrompt
+  }
+})
+
+const mobilePrompt = computed(() => {
+  const currentPath = route.name
+  
+  switch (currentPath) {
+    case 'home':
+      return '> ~/home$'
+    case 'resume':
+      return '> ~/resume$'
+    case 'blog':
+      return '> ~/blog$'
+    default:
+      return '> ~$'
   }
 })
 
