@@ -43,8 +43,10 @@
     <!-- Main Terminal Window -->
     <div class="terminal-main flex-1 flex flex-col w-full relative overflow-hidden">
       <!-- Terminal Content -->
-      <div class="terminal-content flex-1 p-4 md:p-6 w-full pb-48 sm:pb-28 overflow-y-auto">
-        <router-view />
+      <div class="terminal-content flex-1 p-4 md:p-6 w-full overflow-y-auto">
+        <div class="mb-32 sm:mb-24">
+          <router-view />
+        </div>
       </div>
     </div>
     
