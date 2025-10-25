@@ -8,17 +8,29 @@ import ResumeProjects from '@/components/resume/ResumeProjects.vue';
 </script>
 
 <template>
-      <div class="p-6 max-w-5xl mx-auto w-full transition-colors duration-200" style="background-color: var(--color-bg-primary);">
-            <a href="https://drive.google.com/file/d/1zOHswsF6g-j5tTBCMrsQ2p4YuOekCvEC/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="mb-4 p-2 rounded underline flex items-center inline-block transition-colors duration-200" style="color: var(--color-text-secondary);">
-      <font-awesome-icon :icon="['fas', 'download']" class="mr-2" />
-      Download PDF
-    </a>
-    <section>
-      <ResumeAbout />
-      <ResumeWorkExp />
-      <ResumeEducation />
-      <ResumeCerts />
-      <ResumeProjects />
-    </section>
+  <div class="terminal-page w-full h-full overflow-auto">
+    <div class="p-6 w-full">
+      <a href="https://drive.google.com/file/d/1zOHswsF6g-j5tTBCMrsQ2p4YuOekCvEC/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="download-link mb-4 p-2 rounded underline flex items-center inline-block transition-colors duration-200 font-terminal">
+        <font-awesome-icon :icon="['fas', 'download']" class="mr-2" />
+        Download PDF
+      </a>
+      <section>
+        <ResumeAbout />
+        <ResumeWorkExp />
+        <ResumeEducation />
+        <ResumeCerts />
+        <ResumeProjects />
+      </section>
+    </div>
   </div>
 </template>
+
+<style scoped>
+.download-link {
+  color: var(--color-text-primary);
+}
+
+.download-link:hover {
+  color: var(--color-text-cyan);
+}
+</style>

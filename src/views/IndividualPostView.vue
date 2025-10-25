@@ -30,23 +30,38 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="post-content mx-auto max-w-5xl w-full px-6">
-        <div class="mb-4 flex items-center justify-between">
-            <router-link to="/blog" class="text-sm text-gray-600 hover:text-gray-900 hover:underline">← Back to Blog</router-link>
-            <span class="text-sm text-gray-500"><font-awesome-icon :icon="['fas', 'calendar-days']" class="mr-1"/> {{ post.date }}</span>
+    <div class="post-content mx-auto max-w-4xl w-full px-6 py-4">
+        <div class="mb-6 flex items-center justify-between flex-wrap gap-3">
+            <router-link to="/blog" class="text-sm text-terminal-cyan hover:text-terminal-green hover:underline font-terminal flex items-center gap-2 transition-colors duration-200">
+                <font-awesome-icon :icon="['fas', 'arrow-left']" />
+                <span>cd ../blog</span>
+            </router-link>
+            <span class="text-sm text-terminal-green font-terminal">
+                <font-awesome-icon :icon="['fas', 'calendar-days']" class="mr-2"/> 
+                {{ post.date }}
+            </span>
         </div>
 
-        <article class="prose prose-neutral max-w-none">
-            <div class="mb-2">
+        <article class="prose prose-terminal max-w-none">
+            <!-- Categories -->
+            <div class="flex flex-wrap gap-2 mb-4">
                 <span
                     v-for="category in post.categories"
                     :key="category"
-                    class="inline-block bg-gray-100 text-gray-700 rounded-full px-2 py-0.5 text-xs mr-2"
+                    class="inline-block bg-terminal-green/10 border border-terminal-green text-terminal-green rounded-md px-3 py-1 text-xs font-terminal"
                 >{{ category }}</span>
             </div>
-            <div v-html="html"></div>
-            <div class="mt-6">
-                <span v-for="tag in post.tags" :key="tag" class="inline-block bg-black text-white px-2 py-0.5 rounded text-xs mr-2">#{{ tag }}</span>
+            
+            <!-- Post Content -->
+            <div class="post-html-content" v-html="html"></div>
+            
+            <!-- Tags -->
+            <div class="mt-8 pt-6 border-t-2 border-terminal-green/30">
+                <div class="flex flex-wrap gap-3">
+                    <span v-for="tag in post.tags" :key="tag" class="text-terminal-cyan font-terminal text-sm">
+                        #{{ tag }}
+                    </span>
+                </div>
             </div>
         </article>
     </div>
@@ -59,134 +74,188 @@ onMounted(() => {
     box-sizing: border-box;
 }
 
-.output {
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-}
-
+/* Terminal-themed prose styling */
 .prose {
-    color: #333;
+    color: var(--color-text-primary);
+    font-size: 1rem;
+    line-height: 1.75;
 }
 
-.post-meta {
-    display: flex;
-    flex-direction: column;
-    row-gap: 0.5rem;
-    align-items: left;
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
-    color: #555;
-}
-
-.tag {
-    display: inline-block;
-    background-color: #000;
-    color: #fff;
-    padding: 0.2rem 0.5rem;
-    border-radius: 2px;
-    margin-right: 0.5rem;
-    font-size: 0.8rem;
-}
-
-.category {
-    display: inline-block;
-    background-color: #e2e8f0;
-    color: #2d3748;
-    padding: 0.2rem 0.5rem;
-    border-radius: 12px;
-    margin-right: 0.5rem;
-    font-size: 0.8rem;
-}
-
-.prose h1 {
-    color: #1f1f1f;
+/* Headings */
+.prose :deep(h1) {
+    color: var(--color-text-primary);
     font-weight: 700;
+    font-size: 2.25rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--color-border-primary);
+    padding-bottom: 0.5rem;
 }
 
-.prose h2 {
-    color: #1f1f1f;
+.prose :deep(h2) {
+    color: var(--color-text-cyan);
     font-weight: 600;
+    font-size: 1.75rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
 }
 
-.prose h3 {
-    color: #1f1f1f;
+.prose :deep(h3) {
+    color: var(--color-text-primary);
     font-weight: 600;
+    font-size: 1.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
 }
 
-.prose h4 {
-    color: #718096;
+.prose :deep(h4),
+.prose :deep(h5),
+.prose :deep(h6) {
+    color: var(--color-text-cyan);
     font-weight: 600;
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
 }
 
-.prose h5 {
-    color: #718096;
-    font-weight: 600;
+/* Paragraphs */
+.prose :deep(p) {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    color: var(--color-text-primary);
 }
 
-.prose h6 {
-    color: #718096;
-    font-weight: 600;
-}
-
-.prose a {
-    color: #3182ce;
+/* Links */
+.prose :deep(a) {
+    color: var(--color-text-cyan);
     text-decoration: underline;
     transition: color 0.3s;
 }
 
-.prose a:hover {
-    color: #2b6cb0;
+.prose :deep(a:hover) {
+    color: var(--color-text-primary);
 }
 
-.prose code {
-    padding: 2px 4px;
+/* Inline code */
+.prose :deep(code) {
+    background-color: var(--color-bg-secondary);
+    color: var(--color-text-cyan);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9em;
+    border: 1px solid var(--color-border-primary);
+}
+
+/* Code blocks */
+.prose :deep(pre) {
+    background-color: var(--color-bg-secondary);
+    border: 2px solid var(--color-border-primary);
+    border-radius: 8px;
+    padding: 1.25rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+}
+
+.prose :deep(pre code) {
+    background-color: transparent;
+    color: var(--color-text-primary);
+    padding: 0;
+    border: none;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+/* Blockquotes */
+.prose :deep(blockquote) {
+    border-left: 4px solid var(--color-border-primary);
+    padding-left: 1.25rem;
+    margin: 1.5rem 0;
+    color: var(--color-text-cyan);
+    font-style: italic;
+    background-color: var(--color-bg-secondary);
+    padding: 1rem 1.25rem;
     border-radius: 4px;
 }
 
-.prose blockquote {
-    border-left: 4px solid #cbd5e0;
-    padding-left: 1em;
-    color: #718096;
-    font-style: italic;
+/* Lists */
+.prose :deep(ul),
+.prose :deep(ol) {
+    margin: 1rem 0;
+    padding-left: 2rem;
+    color: var(--color-text-primary);
 }
 
-.prose ul {
+.prose :deep(ul) {
     list-style-type: disc;
-    padding-left: 1.5em;
 }
 
-.prose ol {
+.prose :deep(ol) {
     list-style-type: decimal;
-    padding-left: 1.5em;
 }
 
-.prose img {
+.prose :deep(li) {
+    margin: 0.5rem 0;
+}
+
+.prose :deep(li::marker) {
+    color: var(--color-text-cyan);
+}
+
+/* Images */
+.prose :deep(img) {
     max-width: 100%;
     border-radius: 8px;
-    margin: 1em 0;
+    margin: 1.5rem 0;
+    border: 2px solid var(--color-border-primary);
 }
 
-.prose pre {
-    padding: 1em;
-    border-radius: 12px;
-    overflow-x: auto;
-}
-
-.prose table {
+/* Tables */
+.prose :deep(table) {
     width: 100%;
     border-collapse: collapse;
-    margin: 1em 0;
+    margin: 1.5rem 0;
+    border: 2px solid var(--color-border-primary);
 }
 
-.prose th,
-.prose td {
-    border: 1px solid #e2e8f0;
-    padding: 0.5em 1em;
+.prose :deep(th),
+.prose :deep(td) {
+    border: 1px solid var(--color-border-primary);
+    padding: 0.75rem 1rem;
+    text-align: left;
 }
 
-.prose th {
-    background-color: #edf2f7;
-    font-weight: bold;
+.prose :deep(th) {
+    background-color: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+    font-weight: 600;
+}
+
+.prose :deep(td) {
+    color: var(--color-text-primary);
+}
+
+.prose :deep(tr:nth-child(even)) {
+    background-color: var(--color-bg-secondary);
+}
+
+/* Horizontal rule */
+.prose :deep(hr) {
+    border: none;
+    border-top: 2px solid var(--color-border-primary);
+    margin: 2rem 0;
+}
+
+/* Strong/Bold */
+.prose :deep(strong),
+.prose :deep(b) {
+    color: var(--color-text-primary);
+    font-weight: 700;
+}
+
+/* Emphasis/Italic */
+.prose :deep(em),
+.prose :deep(i) {
+    color: var(--color-text-cyan);
+    font-style: italic;
 }
 </style>

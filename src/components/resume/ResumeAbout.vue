@@ -21,11 +21,11 @@ const skills = computed(() =>
 
 <template>
     <!-- Intro & Contact Section -->
-    <section class="mb-12 rounded-lg bg-[#f4f4f4] dark:bg-gray-600 py-8 px-4">
+    <section class="mb-12 rounded-lg py-8 px-4">
         <h2 class="text-3xl font-bold mb-4 text-center">
-            <span class="text-[#444440] dark:text-gray-200" style="letter-spacing: 0.1em"
+            <span class="text-terminal-green" style="letter-spacing: 0.1em"
                 >MOHAMMAD ASAD </span
-            ><span class="text-[#828206] dark:text-[#828206]" style="letter-spacing: 0.1em"
+            ><span class="text-terminal-cyan" style="letter-spacing: 0.1em"
                 >ATTERKHAN</span
             >
         </h2>
@@ -36,11 +36,11 @@ const skills = computed(() =>
             <p>
                 <a
                     href="tel:+23058455140"
-                    class="text-gray-600 dark:text-gray-300 flex items-center hover:text-[#828206] dark:hover:text-[#828206] transition-colors group"
+                    class="contact-link flex items-center group"
                 >
                     <font-awesome-icon
                         :icon="['fas', 'phone']"
-                        class="icon-size mr-1 text-gray-600 dark:text-gray-400 group-hover:text-[rgb(130,130,6)] transition-colors"
+                        class="icon-size mr-2 transition-colors"
                     />
                     +230 5845 5140</a
                 >
@@ -48,36 +48,36 @@ const skills = computed(() =>
             <p>
                 <a
                     href="mailto:masad.atterkhan@gmail.com"
-                    class="text-gray-600 dark:text-gray-300 flex items-center hover:text-[#828206] dark:hover:text-[#828206] transition-colors group"
+                    class="contact-link flex items-center group"
                 >
                     <font-awesome-icon
                         :icon="['fas', 'envelope']"
-                        class="icon-size mr-1 text-gray-600 dark:text-gray-400 group-hover:text-[rgb(130,130,6)] transition-colors"
+                        class="icon-size mr-2 transition-colors"
                     />
                     masad.atterkhan@gmail.com</a
                 >
             </p>
-            <p class="text-gray-600 dark:text-gray-300 flex items-center">
+            <p class="flex items-center">
                 <a
                     href="https://linkedin.com/in/maatterkhan"
-                    class="text-gray-600 dark:text-gray-300 flex items-center hover:text-[#828206] dark:hover:text-[#828206] transition-colors group"
+                    class="contact-link flex items-center group"
                 >
                     <font-awesome-icon
                         :icon="['fab', 'linkedin']"
-                        class="icon-size mr-1 text-gray-600 dark:text-gray-400 group-hover:text-[rgb(130,130,6)] transition-colors"
+                        class="icon-size mr-2 transition-colors"
                     />
                     LinkedIn
                 </a>
             </p>
-            <p class="text-gray-600 dark:text-gray-300 flex items-center">
+            <p class="flex items-center">
                 <a
                     href="https://github.com/ma-asad"
                     target="_blank"
-                    class="text-gray-600 dark:text-gray-300 flex items-center hover:text-[#828206] dark:hover:text-[#828206] transition-colors group"
+                    class="contact-link flex items-center group"
                 >
                     <font-awesome-icon
                         :icon="['fab', 'github']"
-                        class="icon-size mr-1 text-gray-600 dark:text-gray-400 group-hover:text-[rgb(130,130,6)] transition-colors"
+                        class="icon-size mr-2 transition-colors"
                     />
                     GitHub
                 </a>
@@ -88,23 +88,23 @@ const skills = computed(() =>
     <!-- About Section -->
     <section class="mb-4">
         <h3
-            class="text-2xl font-bold mb-4 cursor-pointer flex justify-between items-center text-[#444440] dark:text-gray-200"
+            class="section-heading text-2xl font-bold mb-4 cursor-pointer flex justify-between items-center"
             @click="isAboutOpen = !isAboutOpen"
         >
             <span>About Me</span>
             <span v-if="isAboutOpen">−</span>
             <span v-else>+</span>
         </h3>
-        <div v-if="isAboutOpen" class="text-gray-600 dark:text-gray-300 space-y-2">
+        <div v-if="isAboutOpen" class="section-content space-y-2">
             <p>
-                IT and Cybesersecurity professional with hands-on experience in system administration, IT support, and
+                IT and Cybersecurity professional with hands-on experience in system administration, IT support, and
                 cybersecurity. Skilled in managing IT infrastructure across Windows, Linux, and IoT environments. Holds a BSc (Hons) in Computer Science
                 (Systems Engineering) and also a Certified Cybersecurity Technician (CCT) by EC-Council. Passionate about
                 cybersecurity, networking and automation.
             </p>
-            <ul class="list-disc pl-5 space-y-1">
+            <ul class="list-disc pl-5 space-y-1 marker-cyan">
                 <li v-for="s in skills" :key="s.id">
-                    <strong>{{ s.label }}:</strong>
+                    <strong class="text-terminal-cyan">{{ s.label }}:</strong>
                     <span v-if="s.detail"> {{ s.detail }}</span>
                 </li>
             </ul>
@@ -117,7 +117,37 @@ const skills = computed(() =>
 .icon-size {
     transform: scale(1.2);
 }
+
 .cursor-pointer {
     cursor: pointer;
+}
+
+.contact-link {
+    color: var(--color-text-tertiary);
+    transition: color 0.2s ease;
+}
+
+.contact-link:hover {
+    color: var(--color-text-cyan);
+}
+
+.contact-link:hover .icon-size {
+    color: var(--color-text-cyan);
+}
+
+.section-heading {
+    color: var(--color-text-primary);
+}
+
+.section-content {
+    color: var(--color-text-tertiary);
+}
+
+.section-content strong {
+    color: var(--color-text-cyan);
+}
+
+.marker-cyan :deep(li::marker) {
+    color: var(--color-text-cyan);
 }
 </style>

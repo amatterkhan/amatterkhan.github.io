@@ -48,4 +48,7 @@ app.use(router)
 // Register Font Awesome component globally
 app.component('font-awesome-icon', FontAwesomeIcon)
 
+// Enable dark mode for terminal theme
+document.documentElement.classList.add('dark')
+
 app.mount('#app')

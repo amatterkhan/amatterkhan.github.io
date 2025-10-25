@@ -9,7 +9,7 @@ const isProjectsOpen = ref(true)
 <template>
     <section>
         <h3
-            class="text-2xl font-bold mb-4 cursor-pointer flex justify-between items-center text-[#444440] dark:text-gray-200"
+            class="section-heading text-2xl font-bold mb-4 cursor-pointer flex justify-between items-center"
             @click="isProjectsOpen = !isProjectsOpen"
         >
             <span>Projects</span>
@@ -17,16 +17,16 @@ const isProjectsOpen = ref(true)
             <span v-else>+</span>
         </h3>
         <div v-if="isProjectsOpen">
-            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-600 dark:text-gray-300">
+            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <li
                     v-for="project in projectsData"
                     :key="project.id"
-                    class="bg-white dark:bg-gray-700 shadow-md rounded-lg p-4"
+                    class="border border-terminal-green rounded-lg p-4"
                 >
-                    <h4 class="text-lg md:text-xl font-semibold mb-2 text-gray-600 dark:text-gray-200">
+                    <h4 class="text-lg md:text-xl font-semibold mb-2 project-title">
                         {{ project.title }}
                     </h4>
-                    <p class="text-gray-600 dark:text-gray-300">{{ project.description }}</p>
+                    <p class="project-description">{{ project.description }}</p>
 
                     <!-- Display Links with Icons Only -->
                     <div v-if="project.links.length > 0" class="mt-2 flex">
@@ -39,7 +39,7 @@ const isProjectsOpen = ref(true)
                                 :href="link.url"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class="text-[rgb(130,130,6)] dark:text-[rgb(130,130,6)] hover:text-[rgb(100,100,4)] dark:hover:text-[rgb(100,100,4)] transition-colors"
+                                class="project-link transition-colors"
                                 :aria-label="`${link.type} Link`"
                             >
                                 <font-awesome-icon
@@ -61,6 +61,26 @@ const isProjectsOpen = ref(true)
 </template>
 
 <style scoped>
+.section-heading {
+    color: var(--color-text-primary);
+}
+
+.project-title {
+    color: var(--color-text-secondary);
+}
+
+.project-description {
+    color: var(--color-text-tertiary);
+}
+
+.project-link {
+    color: var(--color-text-cyan);
+}
+
+.project-link:hover {
+    color: var(--color-text-primary);
+}
+
 .cursor-pointer {
     cursor: pointer;
 }

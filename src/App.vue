@@ -1,17 +1,7 @@
 <script setup>
-import NavBar from '@/components/header/NavBar.vue';
-import Footer from '@/components/header/Footer.vue';
-import { RouterView, useRoute } from 'vue-router';
-import { computed } from 'vue';
-
-const route = useRoute();
-const isHome = computed(() => route.name === 'home');
+import TerminalLayout from '@/components/TerminalLayout.vue';
 </script>
 
 <template>
-  <NavBar />
-  <main class="max-w-5xl mx-auto w-full px-6" style="background-color: var(--color-bg-primary);">
-    <RouterView />
-  </main>
-  <Footer />
+  <TerminalLayout />
 </template>

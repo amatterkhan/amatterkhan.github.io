@@ -34,7 +34,7 @@ const pinnedMatchesQuery = computed(() => {
     return (
         pin.title.toLowerCase().includes(q) ||
         (pin.tags || []).some((t) => t.toLowerCase().includes(q)) ||
-        (pin.categories || []).some((c) => c.toLowerCase().includes(q))
+        (pin.categories || []).some((c) => c.toLowerCase().includes(c))
     )
 })
 
@@ -49,7 +49,7 @@ const filtered = computed(() => {
         const d = new Date(p.date)
         if (startDate.value && d < new Date(startDate.value)) return false
         if (endDate.value && d > new Date(endDate.value)) return false
-        // Text
+
         if (!q) return true
         return (
             p.title.toLowerCase().includes(q) ||
@@ -60,61 +60,61 @@ const filtered = computed(() => {
 })
 
 // Pagination
-const isMobile = ref(false)
-function handleResize() {
-    isMobile.value = window.innerWidth < 768
-}
-onMounted(() => {
-    handleResize()
-    window.addEventListener('resize', handleResize)
-})
-onUnmounted(() => {
-    window.removeEventListener('resize', handleResize)
-})
-
+const postsPerPage = 10
 const currentPage = ref(1)
-const perPage = computed(() => (isMobile.value ? 5 : 7))
 
-const filteredNonPinned = computed(() =>
-    filtered.value.filter((p) => p.id !== pinnedId.value)
-)
-
-const totalPages = computed(() =>
-    Math.max(1, Math.ceil(filteredNonPinned.value.length / perPage.value))
-)
+const totalPages = computed(() => Math.ceil(filtered.value.length / postsPerPage))
 
 const paginatedPosts = computed(() => {
-    const start = (currentPage.value - 1) * perPage.value
-    return filteredNonPinned.value.slice(start, start + perPage.value)
+    const start = (currentPage.value - 1) * postsPerPage
+    const end = start + postsPerPage
+    return filtered.value.slice(start, end)
 })
 
-watch(query, () => {
-    currentPage.value = 1
-})
-watch([selectedCategory, startDate, endDate], () => {
+// Reset to page 1 when filters change
+watch([query, selectedCategory, startDate, endDate], () => {
     currentPage.value = 1
 })
 
-// Collapsed pagination display (1 … n-1 n n+1 … N)
+// Pagination display logic
 const displayedPages = computed(() => {
     const total = totalPages.value
     const current = currentPage.value
-    if (total <= 7) {
-        return Array.from({ length: total }, (_, i) => ({ type: 'page', value: i + 1 }))
-    }
     const pages = []
-    pages.push({ type: 'page', value: 1 })
-    const start = Math.max(2, current - 1)
-    const end = Math.min(total - 1, current + 1)
-    if (start > 2) pages.push({ type: 'ellipsis' })
-    for (let p = start; p <= end; p++) {
-        pages.push({ type: 'page', value: p })
+    
+    if (total <= 7) {
+        for (let i = 1; i <= total; i++) {
+            pages.push({ type: 'page', value: i })
+        }
+    } else {
+        pages.push({ type: 'page', value: 1 })
+        
+        if (current > 4) {
+            pages.push({ type: 'ellipsis' })
+        }
+        
+        const start = Math.max(2, current - 1)
+        const end = Math.min(total - 1, current + 1)
+        
+        for (let i = start; i <= end; i++) {
+            if (i !== 1 && i !== total) {
+                pages.push({ type: 'page', value: i })
+            }
+        }
+        
+        if (current < total - 3) {
+            pages.push({ type: 'ellipsis' })
+        }
+        
+        if (total > 1) {
+            pages.push({ type: 'page', value: total })
+        }
     }
-    if (end < total - 1) pages.push({ type: 'ellipsis' })
-    pages.push({ type: 'page', value: total })
+    
     return pages
 })
-// Unique categories
+
+// Categories from posts
 const categories = computed(() => {
     const set = new Set()
     posts.value.forEach((p) => (p.categories || []).forEach((c) => set.add(c)))
@@ -123,45 +123,47 @@ const categories = computed(() => {
 </script>
 
 <template>
-    <section class="mb-12 max-w-5xl mx-auto w-full px-6">
-        <h2 class="text-2xl font-bold mb-4">Blog</h2>
+  <div class="terminal-page w-full h-full overflow-auto">
+    <section class="mb-12 w-full px-6">
+        <h2 class="text-2xl font-bold mb-4 text-terminal-green">Blog</h2>
 
-        <div class="sticky top-0 z-10 bg-white/90 dark:bg-gray-800/90 backdrop-blur py-2 transition-colors duration-200">
+        <div class="sticky top-0 z-10 py-2 bg-terminal-bg">
             <div class="flex items-center gap-2">
-                <div class="relative flex-1 max-w-sm">
-                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs">
+                <div class="relative flex-1 max-w-md">
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-terminal-green text-sm">
                         <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
                     </span>
                     <input
                         v-model="query"
                         type="text"
-                        placeholder="Search posts..."
-                        class="w-full border border-gray-300 dark:border-gray-600 rounded pl-8 pr-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
+                        placeholder="$ grep -i 'search term' posts/*"
+                        class="w-full border-2 border-terminal-green rounded-md pl-10 pr-4 py-2.5 bg-terminal-bg focus:outline-none focus:ring-2 focus:ring-terminal-cyan focus:border-terminal-cyan text-terminal-green placeholder-terminal-green/40 font-terminal text-sm transition-all duration-200"
                     />
                 </div>
                 <!-- Mobile Filter Trigger -->
-                <button class="sm:hidden p-2.5 border border-gray-300 dark:border-gray-600 rounded text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200" @click="showFilters = true" aria-label="Open filters">
-                    <font-awesome-icon :icon="['fas', 'filter']" class="text-gray-700 dark:text-gray-300" />
+                <button class="sm:hidden p-2.5 border-2 border-terminal-green rounded-md text-sm text-terminal-green hover:bg-terminal-green hover:text-terminal-bg transition-all duration-200" @click="showFilters = true" aria-label="Open filters">
+                    <font-awesome-icon :icon="['fas', 'filter']" />
                 </button>
                 <!-- Desktop Filters Dropdown -->
                 <details class="relative hidden sm:block">
-                    <summary class="list-none cursor-pointer p-2.5 border border-gray-300 dark:border-gray-600 rounded text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200" aria-label="Open filters">
-                        <font-awesome-icon :icon="['fas', 'filter']" class="text-gray-700 dark:text-gray-300" />
+                    <summary class="list-none cursor-pointer p-2.5 border-2 border-terminal-green rounded-md text-sm text-terminal-green hover:bg-terminal-green hover:text-terminal-bg transition-all duration-200 flex items-center gap-2" aria-label="Open filters">
+                        <font-awesome-icon :icon="['fas', 'filter']" />
+                        <span>Filters</span>
                     </summary>
-                    <div class="absolute right-0 mt-2 p-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded shadow z-20 w-72 transition-colors duration-200">
-                        <div class="mb-2">
-                            <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Category</label>
-                            <select v-model="selectedCategory" class="w-full border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+                    <div class="absolute right-0 mt-2 p-4 bg-terminal-bg border-2 border-terminal-green rounded-md shadow-lg shadow-terminal-green/20 z-20 w-80">
+                        <div class="mb-3">
+                            <label class="block text-sm font-terminal text-terminal-green mb-2">Category</label>
+                            <select v-model="selectedCategory" class="w-full border-2 border-terminal-green rounded-md px-3 py-2 text-sm bg-terminal-bg text-terminal-green font-terminal focus:outline-none focus:ring-2 focus:ring-terminal-cyan">
                                 <option v-for="c in categories" :key="c" :value="c">{{ c }}</option>
                             </select>
                         </div>
-                        <div class="mb-2">
-                            <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Start date</label>
-                            <input v-model="startDate" type="date" class="w-full border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
+                        <div class="mb-3">
+                            <label class="block text-sm font-terminal text-terminal-green mb-2">Start date</label>
+                            <input v-model="startDate" type="date" class="w-full border-2 border-terminal-green rounded-md px-3 py-2 text-sm bg-terminal-bg text-terminal-green font-terminal focus:outline-none focus:ring-2 focus:ring-terminal-cyan" />
                         </div>
                         <div>
-                            <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">End date</label>
-                            <input v-model="endDate" type="date" class="w-full border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
+                            <label class="block text-sm font-terminal text-terminal-green mb-2">End date</label>
+                            <input v-model="endDate" type="date" class="w-full border-2 border-terminal-green rounded-md px-3 py-2 text-sm bg-terminal-bg text-terminal-green font-terminal focus:outline-none focus:ring-2 focus:ring-terminal-cyan" />
                         </div>
                     </div>
                 </details>
@@ -170,89 +172,93 @@ const categories = computed(() => {
 
         <!-- Mobile Filters Bottom Sheet -->
         <div v-if="showFilters" class="fixed inset-0 z-50 sm:hidden">
-            <div class="absolute inset-0 bg-black/40" @click="showFilters = false"></div>
-            <div class="absolute inset-x-0 bottom-0 bg-white dark:bg-gray-700 rounded-t-2xl p-4 max-h-[80vh] overflow-auto filter-sheet transition-colors duration-200">
-                <div class="mb-3">
-                    <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Category</label>
-                    <select v-model="selectedCategory" class="w-full border border-gray-300 dark:border-gray-600 rounded px-2 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+            <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="showFilters = false"></div>
+            <div class="absolute inset-x-0 bottom-0 bg-terminal-bg border-t-2 border-terminal-green rounded-t-2xl p-6 max-h-[80vh] overflow-auto filter-sheet">
+                <h3 class="text-lg font-terminal text-terminal-green mb-4">Filter Posts</h3>
+                <div class="mb-4">
+                    <label class="block text-sm font-terminal text-terminal-green mb-2">Category</label>
+                    <select v-model="selectedCategory" class="w-full border-2 border-terminal-green rounded-md px-3 py-2 text-sm bg-terminal-bg text-terminal-green font-terminal">
                         <option v-for="c in categories" :key="c" :value="c">{{ c }}</option>
                     </select>
                 </div>
-                <div class="grid grid-cols-1 gap-3 min-w-0">
-                    <div class="min-w-0">
-                        <div class="flex items-center gap-2">
-                            <font-awesome-icon :icon="['fas', 'calendar-days']" class="text-gray-400 dark:text-gray-500 text-xs" />
-                            <label class="block text-xs text-gray-500 dark:text-gray-400">Start date</label>
-                        </div>
-                        <input v-model="startDate" type="date" class="w-full min-w-0 border border-gray-300 dark:border-gray-600 rounded px-2 py-2 text-sm appearance-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
+                <div class="flex gap-3 mb-4">
+                    <div class="flex-1 min-w-0">
+                        <label class="block text-sm font-terminal text-terminal-green mb-2">Start date</label>
+                        <input v-model="startDate" type="date" class="w-full border-2 border-terminal-green rounded-md px-3 py-2 text-sm bg-terminal-bg text-terminal-green font-terminal" />
                     </div>
-                    <div class="min-w-0">
-                        <div class="flex items-center gap-2">
-                            <font-awesome-icon :icon="['fas', 'calendar-days']" class="text-gray-400 dark:text-gray-500 text-xs" />
-                            <label class="block text-xs text-gray-500 dark:text-gray-400">End date</label>
-                        </div>
-                        <input v-model="endDate" type="date" class="w-full min-w-0 border border-gray-300 dark:border-gray-600 rounded px-2 py-2 text-sm appearance-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100" />
+                    <div class="flex-1 min-w-0">
+                        <label class="block text-sm font-terminal text-terminal-green mb-2">End date</label>
+                        <input v-model="endDate" type="date" class="w-full border-2 border-terminal-green rounded-md px-3 py-2 text-sm bg-terminal-bg text-terminal-green font-terminal" />
                     </div>
                 </div>
-                <div class="mt-4 flex justify-end gap-2">
-                    <button class="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200" @click="() => { selectedCategory = 'All'; startDate = ''; endDate = '' }">Reset</button>
-                    <button class="px-3 py-2 border rounded bg-gray-800 dark:bg-gray-700 text-white dark:text-gray-100 hover:bg-gray-900 dark:hover:bg-gray-600 transition-colors duration-200" @click="showFilters = false">Apply</button>
+                <div class="mt-6 flex justify-end gap-3">
+                    <button class="px-4 py-2 border-2 border-terminal-green rounded-md text-terminal-green hover:bg-terminal-green hover:text-terminal-bg transition-all duration-200 font-terminal" @click="() => { selectedCategory = 'All'; startDate = ''; endDate = '' }">Reset</button>
+                    <button class="px-4 py-2 border-2 rounded-md bg-terminal-green text-terminal-bg hover:bg-terminal-cyan hover:border-terminal-cyan transition-all duration-200 font-terminal" @click="showFilters = false">Apply</button>
                 </div>
             </div>
         </div>
 
-        <div v-if="pinned && pinnedMatchesQuery && currentPage === 1" class="mb-6 p-4 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 transition-colors duration-200">
-            <div class="flex items-start justify-between">
-                <router-link :to="`/post/${pinned.id}`" class="font-semibold text-gray-900 dark:text-gray-100 hover:underline">
-                    {{ pinned.title }}
+        <div v-if="pinned && pinnedMatchesQuery && currentPage === 1" class="mb-6 p-5 rounded-lg border-2 border-terminal-yellow bg-terminal-bg-secondary hover:shadow-lg hover:shadow-terminal-yellow/20 transition-all duration-200">
+            <div class="flex items-start justify-between gap-3 mb-2">
+                <router-link :to="`/post/${pinned.id}`" class="font-semibold text-lg text-terminal-green hover:text-terminal-cyan transition-colors duration-200 font-terminal">
+                    > {{ pinned.title }}
                 </router-link>
-                <div class="flex items-center gap-2">
-                    <font-awesome-icon :icon="['fas', 'thumbtack']" class="text-gray-400 dark:text-gray-500 text-xs rotate-45"/>
-                    <span class="text-xs text-gray-500 dark:text-gray-400">{{ pinned.date }}</span>
+                <div class="flex items-center gap-2 flex-shrink-0">
+                    <font-awesome-icon :icon="['fas', 'thumbtack']" class="text-terminal-yellow text-sm rotate-45"/>
+                    <span class="text-xs text-terminal-green font-terminal">{{ pinned.date }}</span>
                 </div>
             </div>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1" v-if="pinned.excerpt">{{ pinned.excerpt }}</p>
-            <div class="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                <span v-if="pinned.categories?.length">{{ pinned.categories.join(', ') }}</span>
+            <p class="text-sm text-terminal-cyan mt-2 leading-relaxed" v-if="pinned.excerpt">{{ pinned.excerpt }}</p>
+            <div class="flex flex-wrap gap-2 mt-3" v-if="pinned.categories?.length">
+                <span v-for="cat in pinned.categories" :key="cat" class="px-2.5 py-1 text-xs bg-terminal-green/10 border border-terminal-green rounded-md text-terminal-green font-terminal">
+                    {{ cat }}
+                </span>
             </div>
         </div>
 
-        <ul class="space-y-3">
-            <li v-for="post in paginatedPosts" :key="post.id" class="p-4 rounded-lg border border-gray-200 dark:border-gray-600 bg-white/60 dark:bg-gray-700/60 hover:bg-white dark:hover:bg-gray-700 transition-colors duration-200">
-                <div class="flex items-center justify-between">
-                    <router-link :to="`/post/${post.id}`" class="font-medium text-gray-900 dark:text-gray-100 hover:underline truncate">
-                        {{ post.title }}
+        <ul class="space-y-4">
+            <li v-for="post in paginatedPosts" :key="post.id" class="p-5 rounded-lg border-2 border-terminal-green bg-terminal-bg-secondary hover:border-terminal-cyan hover:shadow-lg hover:shadow-terminal-green/10 transition-all duration-200">
+                <div class="flex items-start justify-between gap-3 mb-2">
+                    <router-link :to="`/post/${post.id}`" class="font-medium text-base text-terminal-green hover:text-terminal-cyan transition-colors duration-200 font-terminal">
+                        > {{ post.title }}
                     </router-link>
-                    <span class="text-xs text-gray-500 dark:text-gray-400 ml-4 shrink-0">{{ post.date }}</span>
+                    <span class="text-xs text-terminal-green flex-shrink-0 font-terminal">{{ post.date }}</span>
                 </div>
-                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1 truncate" v-if="post.excerpt">{{ post.excerpt }}</p>
-                <div class="text-xs text-gray-500 dark:text-gray-400 mt-1 truncate">
-                    <span v-if="post.categories?.length">{{ post.categories.join(', ') }}</span>
+                <p class="text-sm text-terminal-cyan mt-2 line-clamp-2 leading-relaxed" v-if="post.excerpt">{{ post.excerpt }}</p>
+                <div class="flex flex-wrap gap-2 mt-3" v-if="post.categories?.length">
+                    <span v-for="cat in post.categories" :key="cat" class="px-2.5 py-1 text-xs bg-terminal-green/10 border border-terminal-green rounded-md text-terminal-green font-terminal">
+                        {{ cat }}
+                    </span>
                 </div>
             </li>
         </ul>
 
         <!-- Pagination Controls -->
-        <div v-if="totalPages > 1" class="mt-6 flex items-center justify-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+        <div v-if="totalPages > 1" class="mt-8 flex items-center justify-center gap-3 text-sm font-terminal">
             <button
-                class="disabled:opacity-40 hover:underline transition-colors duration-200"
+                class="px-4 py-2 border-2 border-terminal-green rounded-md text-terminal-green disabled:opacity-40 disabled:cursor-not-allowed hover:bg-terminal-green hover:text-terminal-bg transition-all duration-200 disabled:hover:bg-transparent disabled:hover:text-terminal-green"
                 :disabled="currentPage === 1"
                 @click="currentPage = Math.max(1, currentPage - 1)"
-            >Prev</button>
-            <template v-for="(item, idx) in displayedPages" :key="idx">
-                <button
-                    v-if="item.type === 'page'"
-                    class="px-1 hover:text-[rgb(130,130,6)] dark:hover:text-[rgb(130,130,6)] transition-colors duration-200"
-                    :class="{ 'font-semibold underline': item.value === currentPage }"
-                    @click="currentPage = item.value"
-                >{{ item.value }}</button>
-                <span v-else class="px-1 text-gray-400 dark:text-gray-500">…</span>
-            </template>
+            >← Prev</button>
+            <div class="flex items-center gap-2">
+                <template v-for="(item, idx) in displayedPages" :key="idx">
+                    <button
+                        v-if="item.type === 'page'"
+                        class="w-10 h-10 flex items-center justify-center border-2 rounded-md transition-all duration-200"
+                        :class="item.value === currentPage 
+                            ? 'border-terminal-cyan bg-terminal-cyan text-terminal-bg font-bold' 
+                            : 'border-terminal-green text-terminal-green hover:bg-terminal-green hover:text-terminal-bg'"
+                        @click="currentPage = item.value"
+                    >{{ item.value }}</button>
+                    <span v-else class="px-2 text-terminal-green">…</span>
+                </template>
+            </div>
             <button
-                class="disabled:opacity-40 hover:underline transition-colors duration-200"
+                class="px-4 py-2 border-2 border-terminal-green rounded-md text-terminal-green disabled:opacity-40 disabled:cursor-not-allowed hover:bg-terminal-green hover:text-terminal-bg transition-all duration-200 disabled:hover:bg-transparent disabled:hover:text-terminal-green"
                 :disabled="currentPage === totalPages"
                 @click="currentPage = Math.min(totalPages, currentPage + 1)"
-            >Next</button>
+            >Next →</button>
         </div>
     </section>
+  </div>
 </template>

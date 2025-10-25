@@ -1,55 +1,83 @@
 /* ./src/base.css */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Color Variables */
+/* Color Variables - Terminal Theme */
 :root {
-  /* Theme Colors */
-  --color-primary: rgb(130, 130, 6);
-  --color-primary-hover: rgb(100, 100, 4);
+  /* Terminal Theme Colors */
+  --color-primary: #00ff00;
+  --color-primary-hover: #00cc00;
+  --color-accent: #00ffff;
+  --color-warning: #ffff00;
+  --color-error: #ff0000;
   
-  /* Light Mode Colors */
-  --color-bg-primary: #ffffff;
-  --color-bg-secondary: #fdfcfb;
-  --color-bg-tertiary: #f3f4f6;
-  --color-bg-quaternary: #e5e7eb;
+  /* Terminal Background Colors */
+  --color-bg-primary: #0a0a0a;
+  --color-bg-secondary: #1a1a1a;
+  --color-bg-tertiary: #2a2a2a;
+  --color-bg-quaternary: #3a3a3a;
   
-  --color-text-primary: #111827;
-  --color-text-secondary: #374151;
-  --color-text-tertiary: #6b7280;
-  --color-text-quaternary: #9ca3af;
+  /* Terminal Text Colors */
+  --color-text-primary: #00ff00;
+  --color-text-secondary: #ffffff;
+  --color-text-tertiary: #cccccc;
+  --color-text-quaternary: #888888;
+  --color-text-cyan: #00ffff;
+  --color-text-yellow: #ffff00;
+  --color-text-muted: #888888;
   
-  --color-border-primary: #d1d5db;
-  --color-border-secondary: #e5e7eb;
+  /* Terminal Border Colors */
+  --color-border-primary: #00ff00;
+  --color-border-secondary: #00ffff;
+  --color-border-muted: rgba(0, 255, 0, 0.3);
   
   /* Component Colors */
-  --color-nav-bg: rgba(255, 255, 255, 0.95);
-  --color-card-bg: #ffffff;
-  --color-dropdown-bg: #f9fafb;
-  --color-sticky-bg: rgba(255, 255, 255, 0.9);
+  --color-nav-bg: rgba(10, 10, 10, 0.95);
+  --color-card-bg: #1a1a1a;
+  --color-dropdown-bg: #2a2a2a;
+  --color-sticky-bg: rgba(10, 10, 10, 0.9);
+  
+  /* Terminal specific */
+  --color-cursor: #00ff00;
+  --color-selection: rgba(0, 255, 0, 0.3);
+  
+  /* Icon and link hover */
+  --color-icon-hover: #00ffff;
+  --color-link-hover: #00ffff;
 }
 
-/* Dark Mode Colors */
+/* Terminal Mode - Always dark theme */
 .dark {
-  --color-bg-primary: #1f2937;
-  --color-bg-secondary: #374151;
-  --color-bg-tertiary: #4b5563;
-  --color-bg-quaternary: #6b7280;
+  --color-bg-primary: #0a0a0a;
+  --color-bg-secondary: #1a1a1a;
+  --color-bg-tertiary: #2a2a2a;
+  --color-bg-quaternary: #3a3a3a;
   
-  --color-text-primary: #f9fafb;
-  --color-text-secondary: #e5e7eb;
-  --color-text-tertiary: #d1d5db;
-  --color-text-quaternary: #9ca3af;
+  --color-text-primary: #00ff00;
+  --color-text-secondary: #ffffff;
+  --color-text-tertiary: #cccccc;
+  --color-text-quaternary: #888888;
+  --color-text-cyan: #00ffff;
+  --color-text-yellow: #ffff00;
+  --color-text-muted: #888888;
   
-  --color-border-primary: #4b5563;
-  --color-border-secondary: #6b7280;
+  --color-border-primary: #00ff00;
+  --color-border-secondary: #00ffff;
+  --color-border-muted: rgba(0, 255, 0, 0.3);
   
   /* Component Colors */
-  --color-nav-bg: rgba(31, 41, 55, 0.95);
-  --color-card-bg: #374151;
-  --color-dropdown-bg: #4b5563;
-  --color-sticky-bg: rgba(31, 41, 55, 0.9);
+  --color-nav-bg: rgba(10, 10, 10, 0.95);
+  --color-card-bg: #1a1a1a;
+  --color-dropdown-bg: #2a2a2a;
+  --color-sticky-bg: rgba(10, 10, 10, 0.9);
+  
+  /* Icon and link hover */
+  --color-icon-hover: #00ffff;
+  --color-link-hover: #00ffff;
 }
 
 /* Global Transitions */
@@ -85,13 +113,96 @@ nav a:hover {
   color: var(--color-primary) !important;
 }
 
+/* Terminal-specific styles */
+.terminal-font {
+  font-family: 'JetBrains Mono', 'Share Tech Mono', 'Courier New', monospace;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+.terminal-cursor {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.terminal-glow {
+  text-shadow: 0 0 5px var(--color-primary);
+}
+
+.terminal-border {
+  border: 1px solid var(--color-border-primary);
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+.terminal-tab {
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-primary);
+  border-bottom: none;
+  color: var(--color-text-primary);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.terminal-tab.active {
+  background: var(--color-bg-primary);
+  color: var(--color-primary);
+  box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+}
+
+.terminal-tab:hover {
+  background: var(--color-bg-tertiary);
+  color: var(--color-accent);
+}
+
+.terminal-window {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border-primary);
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.terminal-prompt {
+  color: var(--color-primary);
+}
+
+.terminal-command {
+  color: var(--color-text-secondary);
+}
+
+.terminal-output {
+  color: var(--color-text-tertiary);
+}
+
+.terminal-page {
+  font-family: 'JetBrains Mono', 'Share Tech Mono', 'Courier New', monospace;
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 @layer base {
   #app {
-    @apply container flex-grow py-4 min-h-screen flex flex-col px-4 sm:px-6 md:px-16;
+    @apply min-h-screen w-full;
+    background: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    font-family: 'JetBrains Mono', 'Share Tech Mono', 'Courier New', monospace;
+    margin: 0;
+    padding: 0;
   }
 
   main {
-    @apply container flex-grow py-8 px-4 sm:px-6 md:px-16;
+    @apply flex-grow w-full;
+    background: var(--color-bg-primary);
   }
 
   /* Dynamic viewport height var for mobile */
@@ -99,18 +210,34 @@ nav a:hover {
     --vh: 1vh;
   }
 
-  /* Dark mode base styles */
+  /* Terminal base styles */
   body {
-    @apply transition-colors duration-150;
+    background: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    font-family: 'JetBrains Mono', 'Share Tech Mono', 'Courier New', monospace;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
   }
 
-  /* Apply dark mode to html element */
+  /* Apply terminal theme to html element */
+  html {
+    background: var(--color-bg-primary);
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
   html.dark {
-    @apply bg-gray-800;
+    background: var(--color-bg-primary);
   }
 
   html.dark body {
-    @apply bg-gray-800 text-gray-100;
+    background: var(--color-bg-primary);
+    color: var(--color-text-primary);
   }
 
   /* Optimize transitions for better performance */
