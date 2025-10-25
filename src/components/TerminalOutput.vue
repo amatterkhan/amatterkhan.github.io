@@ -15,15 +15,15 @@
     </div>
     
     <!-- Interactive Command Input -->
-    <div v-if="showInput" class="flex items-center mt-2">
-      <span class="text-terminal-green mr-2">ma-asad@terminal:~$</span>
+    <div v-if="showInput" class="flex items-center mt-2 mb-8">
+      <span class="text-terminal-green mr-2 text-sm">ma-asad@terminal:~$</span>
       <input
         ref="commandInput"
         v-model="currentCommand"
         @keydown.enter="executeCommand"
         @keydown.up="navigateHistory(-1)"
         @keydown.down="navigateHistory(1)"
-        class="flex-1 bg-transparent border-none outline-none text-terminal-green font-terminal"
+        class="flex-1 bg-transparent border-none outline-none text-terminal-green font-terminal command-input"
         placeholder="type 'help' for available commands"
         autocomplete="off"
       />
@@ -411,12 +411,16 @@ const processCommand = (cmd) => {
       terminalOutput.value.push({ text: '', color: 'terminal-green' })
   }
   
-  // Scroll to bottom
+  // Scroll to bottom with smooth behavior
   nextTick(() => {
-    const outputEl = document.querySelector('.terminal-output')
-    if (outputEl) {
-      outputEl.scrollTop = outputEl.scrollHeight
-    }
+    setTimeout(() => {
+      const outputEl = document.querySelector('.terminal-output')
+      if (outputEl) {
+        outputEl.scrollTop = outputEl.scrollHeight
+      }
+      // Refocus input after scroll
+      commandInput.value?.focus()
+    }, 100)
   })
 }
 
@@ -464,13 +468,21 @@ onBeforeUnmount(() => {
   color: inherit;
 }
 
-input {
+.command-input {
   caret-color: var(--color-text-primary);
+  font-size: 16px; /* Prevent iOS zoom on focus */
 }
 
-input::placeholder {
+.command-input::placeholder {
   color: var(--color-text-muted);
   opacity: 0.5;
+}
+
+/* Desktop: use smaller font size */
+@media (min-width: 768px) {
+  .command-input {
+    font-size: 0.875rem;
+  }
 }
 
 @keyframes glow {
