@@ -1,12 +1,11 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 
-// Reference date: August 18, 2025 - night shift, 5 days week (Mon, Tue, Fri, Sat, Sun)
+// Reference: Aug 18, 2025 (night shift, 5-day week)
 const REFERENCE_DATE = new Date('2025-08-18')
 const REFERENCE_IS_NIGHT = true
 const REFERENCE_IS_5_DAY_WEEK = true
 
-// Week patterns
 const WEEK_5_DAYS = [1, 2, 5, 6, 0] // Mon, Tue, Fri, Sat, Sun
 const WEEK_2_DAYS = [3, 4] // Wed, Thu
 
@@ -14,45 +13,27 @@ const selectedMonth = ref(new Date().getMonth())
 const selectedYear = ref(new Date().getFullYear())
 const currentDate = ref(new Date())
 
-// Calculate which week pattern we're in based on reference date
 function getWeekPattern(date) {
   const daysSinceReference = Math.floor((date - REFERENCE_DATE) / (1000 * 60 * 60 * 24))
   const weeksSinceReference = Math.floor(daysSinceReference / 7)
-  
-  // Alternate between 5-day and 2-day weeks
   return weeksSinceReference % 2 === 0 ? WEEK_5_DAYS : WEEK_2_DAYS
 }
 
-// Determine if it's night or day shift based on month
 function isNightShift(date) {
   const monthDiff = (date.getFullYear() - REFERENCE_DATE.getFullYear()) * 12 + 
                     (date.getMonth() - REFERENCE_DATE.getMonth())
-  
-  // If reference was night shift, even months (0, 2, 4...) are night, odd are day
-  // If reference was day shift, even months are day, odd are night
-  if (REFERENCE_IS_NIGHT) {
-    return monthDiff % 2 === 0
-  } else {
-    return monthDiff % 2 === 1
-  }
+  return REFERENCE_IS_NIGHT ? monthDiff % 2 === 0 : monthDiff % 2 === 1
 }
 
-// Check if a date is a work day
 function isWorkDay(date) {
-  const dayOfWeek = date.getDay()
-  const weekPattern = getWeekPattern(date)
-  return weekPattern.includes(dayOfWeek)
+  return getWeekPattern(date).includes(date.getDay())
 }
 
-// Get shift type for a date
 function getShiftType(date) {
-  if (!isWorkDay(date)) {
-    return 'off'
-  }
+  if (!isWorkDay(date)) return 'off'
   return isNightShift(date) ? 'night' : 'day'
 }
 
-// Generate calendar days for selected month
 const calendarDays = computed(() => {
   const year = selectedYear.value
   const month = selectedMonth.value
@@ -64,12 +45,10 @@ const calendarDays = computed(() => {
   
   const days = []
   
-  // Add empty cells for days before month starts
   for (let i = 0; i < startDayOfWeek; i++) {
     days.push(null)
   }
   
-  // Add all days of the month
   for (let day = 1; day <= daysInMonth; day++) {
     const date = new Date(year, month, day)
     days.push({

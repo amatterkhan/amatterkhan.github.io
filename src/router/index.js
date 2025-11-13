@@ -31,8 +31,8 @@ const router = createRouter({
             component: ResumeView
         },
         {
-            path: '/shift-calendar',
-            name: 'shift-calendar',
+            path: '/calendar',
+            name: 'calendar',
             component: ShiftCalendarView
         },
         // Hidden redirect routes - handled by 404.html for direct access

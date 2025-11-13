@@ -81,8 +81,8 @@ const currentPrompt = computed(() => {
       return 'ma-asad@terminal:~/resume$'
     case 'blog':
       return 'ma-asad@terminal:~/blog$'
-    case 'shift-calendar':
-      return 'ma-asad@terminal:~/shift-calendar$'
+    case 'calendar':
+      return 'ma-asad@terminal:~/calendar$'
     default:
       return basePrompt
   }
@@ -98,8 +98,8 @@ const mobilePrompt = computed(() => {
       return '> ~/resume$'
     case 'blog':
       return '> ~/blog$'
-    case 'shift-calendar':
-      return '> ~/shift-calendar$'
+    case 'calendar':
+      return '> ~/calendar$'
     default:
       return '> ~$'
   }

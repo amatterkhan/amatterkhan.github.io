@@ -66,4 +66,15 @@ app.component('font-awesome-icon', FontAwesomeIcon)
 // Enable dark mode for terminal theme
 document.documentElement.classList.add('dark')
 
+// Restore path from 404 redirect
+router.isReady().then(() => {
+  const urlParams = new URLSearchParams(window.location.search)
+  const redirectPath = urlParams.get('redirect') || sessionStorage.getItem('redirectPath')
+  
+  if (redirectPath && redirectPath !== window.location.pathname) {
+    sessionStorage.removeItem('redirectPath')
+    router.push(redirectPath).catch(() => {})
+  }
+})
+
 app.mount('#app')
