@@ -20,9 +20,10 @@ function getWeekPattern(date) {
 }
 
 function isNightShift(date) {
-  const monthDiff = (date.getFullYear() - REFERENCE_DATE.getFullYear()) * 12 + 
-                    (date.getMonth() - REFERENCE_DATE.getMonth())
-  return REFERENCE_IS_NIGHT ? monthDiff % 2 === 0 : monthDiff % 2 === 1
+  const daysSinceReference = Math.floor((date - REFERENCE_DATE) / (1000 * 60 * 60 * 24))
+  const weeksSinceReference = Math.floor(daysSinceReference / 7)
+  const fourWeekPeriods = Math.floor(weeksSinceReference / 4)
+  return REFERENCE_IS_NIGHT ? fourWeekPeriods % 2 === 0 : fourWeekPeriods % 2 === 1
 }
 
 function isWorkDay(date) {
@@ -157,11 +158,17 @@ const monthSummary = computed(() => {
           <div class="text-terminal-green text-xl font-terminal">{{ monthSummary.totalWorkDays }}</div>
         </div>
         <div class="border border-terminal-cyan p-3 bg-terminal-bg-secondary">
-          <div class="text-terminal-subtle text-xs mb-1">Night Shifts</div>
+          <div class="flex items-center gap-2 mb-1">
+            <font-awesome-icon :icon="['fas', 'moon']" class="text-terminal-green text-xs" />
+            <div class="text-terminal-subtle text-xs">Night Shifts</div>
+          </div>
           <div class="text-terminal-cyan text-xl font-terminal">{{ monthSummary.nightShifts }}</div>
         </div>
         <div class="border border-terminal-yellow p-3 bg-terminal-bg-secondary">
-          <div class="text-terminal-subtle text-xs mb-1">Day Shifts</div>
+          <div class="flex items-center gap-2 mb-1">
+            <font-awesome-icon :icon="['fas', 'sun']" class="text-terminal-yellow text-xs" />
+            <div class="text-terminal-subtle text-xs">Day Shifts</div>
+          </div>
           <div class="text-terminal-yellow text-xl font-terminal">{{ monthSummary.dayShifts }}</div>
         </div>
         <div class="border border-terminal-green p-3 bg-terminal-bg-secondary">
@@ -227,43 +234,6 @@ const monthSummary = computed(() => {
               </div>
             </template>
           </div>
-        </div>
-      </div>
-
-      <!-- Legend -->
-      <div class="mt-4 sm:mt-6 border border-terminal-green p-2 sm:p-4 bg-terminal-bg-secondary">
-        <h3 class="text-terminal-cyan text-lg font-terminal mb-3">> legend</h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div class="flex items-center gap-3">
-            <div class="w-8 h-8 border border-terminal-green bg-terminal-bg flex items-center justify-center">
-              <font-awesome-icon :icon="['fas', 'moon']" class="text-terminal-green text-sm" />
-            </div>
-            <div class="text-terminal-content text-sm">
-              <span class="text-terminal-green font-terminal">Moon</span> = Night Shift
-            </div>
-          </div>
-          <div class="flex items-center gap-3">
-            <div class="w-8 h-8 border border-terminal-yellow bg-terminal-bg flex items-center justify-center">
-              <font-awesome-icon :icon="['fas', 'sun']" class="text-terminal-yellow text-sm" />
-            </div>
-            <div class="text-terminal-content text-sm">
-              <span class="text-terminal-yellow font-terminal">Sun</span> = Day Shift
-            </div>
-          </div>
-          <div class="flex items-center gap-3">
-            <div class="w-8 h-8 border border-terminal-green/30 bg-terminal-bg-secondary"></div>
-            <div class="text-terminal-content text-sm">
-              <span class="text-terminal-subtle font-terminal">OFF</span> = Off Day
-            </div>
-          </div>
-        </div>
-        <div class="mt-4 pt-4 border-t border-terminal-green/30">
-          <p class="text-terminal-subtle text-xs">
-            Week 1: Mon, Tue, Fri, Sat, Sun (5 days) | Week 2: Wed, Thu (2 days)
-          </p>
-          <p class="text-terminal-subtle text-xs mt-1">
-            Shifts rotate monthly: 1 month Night → 1 month Day
-          </p>
         </div>
       </div>
     </div>
