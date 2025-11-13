@@ -112,7 +112,7 @@ const monthSummary = computed(() => {
 
 <template>
   <div class="terminal-page w-full h-full overflow-auto">
-    <div class="p-4 md:p-6 w-full max-w-6xl mx-auto">
+    <div class="p-2 sm:p-4 md:p-6 w-full max-w-6xl mx-auto">
       <!-- Header -->
       <div class="mb-6">
         <h1 class="text-terminal-green text-2xl md:text-3xl font-terminal mb-2 terminal-glow">
@@ -124,7 +124,7 @@ const monthSummary = computed(() => {
       </div>
 
       <!-- Month Navigation -->
-      <div class="mb-6 flex flex-col sm:flex-row items-center justify-between gap-4 border border-terminal-green p-4 bg-terminal-bg-secondary">
+      <div class="mb-4 sm:mb-6 flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-4 border border-terminal-green p-2 sm:p-4 bg-terminal-bg-secondary">
         <div class="flex items-center gap-4">
           <button
             @click="previousMonth"
@@ -151,7 +151,7 @@ const monthSummary = computed(() => {
       </div>
 
       <!-- Month Summary -->
-      <div class="mb-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="mb-4 sm:mb-6 grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
         <div class="border border-terminal-green p-3 bg-terminal-bg-secondary">
           <div class="text-terminal-subtle text-xs mb-1">Total Work Days</div>
           <div class="text-terminal-green text-xl font-terminal">{{ monthSummary.totalWorkDays }}</div>
@@ -171,25 +171,25 @@ const monthSummary = computed(() => {
       </div>
 
       <!-- Calendar Grid -->
-      <div class="border border-terminal-green bg-terminal-bg-secondary p-4">
+      <div class="border border-terminal-green bg-terminal-bg-secondary p-2 sm:p-4 overflow-x-auto">
         <!-- Day Headers -->
-        <div class="grid grid-cols-7 gap-2 mb-2">
+        <div class="grid grid-cols-7 gap-1 sm:gap-2 mb-1 sm:mb-2 min-w-[280px]">
           <div
             v-for="dayName in dayNames"
             :key="dayName"
-            class="text-center text-terminal-cyan text-xs md:text-sm font-terminal py-2"
+            class="text-center text-terminal-cyan text-xs font-terminal py-1 sm:py-2"
           >
             {{ dayName }}
           </div>
         </div>
 
         <!-- Calendar Days -->
-        <div class="grid grid-cols-7 gap-2">
+        <div class="grid grid-cols-7 gap-1 sm:gap-2 min-w-[280px]">
           <div
             v-for="(day, index) in calendarDays"
             :key="index"
             :class="[
-              'aspect-square border p-2 flex flex-col items-center justify-center transition-all',
+              'aspect-square border p-1 sm:p-2 flex flex-col items-center justify-center transition-all min-w-0',
               day ? {
                 'border-terminal-green bg-terminal-bg': day.shiftType === 'night',
                 'border-terminal-yellow bg-terminal-bg': day.shiftType === 'day',
@@ -201,7 +201,7 @@ const monthSummary = computed(() => {
             <template v-if="day">
               <div
                 :class="[
-                  'text-sm md:text-base font-terminal',
+                  'text-xs sm:text-sm md:text-base font-terminal leading-tight',
                   day.isToday ? 'text-terminal-cyan' : 'text-terminal-content'
                 ]"
               >
@@ -210,18 +210,18 @@ const monthSummary = computed(() => {
               <div
                 v-if="day.isWorkDay"
                 :class="[
-                  'text-xs mt-1',
+                  'text-[10px] sm:text-xs mt-0.5 sm:mt-1',
                   day.shiftType === 'night' ? 'text-terminal-green' : 'text-terminal-yellow'
                 ]"
               >
                 <font-awesome-icon 
                   :icon="day.shiftType === 'night' ? ['fas', 'moon'] : ['fas', 'sun']" 
-                  class="text-sm"
+                  class="text-[10px] sm:text-xs"
                 />
               </div>
               <div
                 v-else
-                class="text-xs mt-1 text-terminal-subtle font-terminal"
+                class="text-[10px] sm:text-xs mt-0.5 sm:mt-1 text-terminal-subtle font-terminal"
               >
                 OFF
               </div>
@@ -231,7 +231,7 @@ const monthSummary = computed(() => {
       </div>
 
       <!-- Legend -->
-      <div class="mt-6 border border-terminal-green p-4 bg-terminal-bg-secondary">
+      <div class="mt-4 sm:mt-6 border border-terminal-green p-2 sm:p-4 bg-terminal-bg-secondary">
         <h3 class="text-terminal-cyan text-lg font-terminal mb-3">> legend</h3>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div class="flex items-center gap-3">
@@ -284,7 +284,8 @@ const monthSummary = computed(() => {
 /* Mobile optimizations */
 @media (max-width: 640px) {
   .aspect-square {
-    min-height: 60px;
+    min-height: 40px;
+    max-height: 50px;
   }
 }
 </style>
