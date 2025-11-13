@@ -4,6 +4,7 @@ import BlogView from '../views/BlogView.vue'
 import NotFoundView from '../views/NotFoundView.vue'
 import IndividualPostView from '../views/IndividualPostView.vue'
 import ResumeView from '../views/ResumeView.vue'
+import ShiftCalendarView from '../views/ShiftCalendarView.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,6 +29,11 @@ const router = createRouter({
             path: '/resume',
             name: 'resume',
             component: ResumeView
+        },
+        {
+            path: '/shift-calendar',
+            name: 'shift-calendar',
+            component: ShiftCalendarView
         },
         // Hidden redirect routes - handled by 404.html for direct access
         // These routes are intentionally not defined here to keep them hidden
