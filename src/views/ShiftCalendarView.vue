@@ -1,28 +1,46 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 
-// Reference: Nov 24, 2025 (Monday, night shift, 5-day week)
-const REFERENCE_DATE = new Date('2025-11-24')
-const REFERENCE_IS_NIGHT = true
-
+// Week pattern configuration
 const WEEK_5_DAYS = [1, 2, 5, 6, 0] // Mon, Tue, Fri, Sat, Sun
 const WEEK_2_DAYS = [3, 4] // Wed, Thu
+
+// Pattern anchor: Nov 24, 2025 (Monday) - 5-day week, night shift
+const PATTERN_ANCHOR = new Date(2025, 10, 24)
 
 const selectedMonth = ref(new Date().getMonth())
 const selectedYear = ref(new Date().getFullYear())
 const currentDate = ref(new Date())
 
+// Get Monday of the week for a given date
+function getMondayOfWeek(date) {
+  const day = date.getDay()
+  const mondayOffset = day === 0 ? 6 : day - 1 // Monday = 0
+  const monday = new Date(date)
+  monday.setDate(date.getDate() - mondayOffset)
+  monday.setHours(0, 0, 0, 0)
+  return monday
+}
+
+// Get week number relative to pattern anchor (Monday-based)
+function getWeekOffset(date) {
+  const dateMonday = getMondayOfWeek(date)
+  const anchorMonday = getMondayOfWeek(PATTERN_ANCHOR)
+  const daysDiff = Math.floor((dateMonday - anchorMonday) / (1000 * 60 * 60 * 24))
+  return Math.floor(daysDiff / 7)
+}
+
 function getWeekPattern(date) {
-  const daysSinceReference = Math.floor((date - REFERENCE_DATE) / (1000 * 60 * 60 * 24))
-  const weeksSinceReference = Math.floor(daysSinceReference / 7)
-  return weeksSinceReference % 2 === 0 ? WEEK_5_DAYS : WEEK_2_DAYS
+  const weekOffset = getWeekOffset(date)
+  const is5DayWeek = ((weekOffset % 2) + 2) % 2 === 0
+  return is5DayWeek ? WEEK_5_DAYS : WEEK_2_DAYS
 }
 
 function isNightShift(date) {
-  const daysSinceReference = Math.floor((date - REFERENCE_DATE) / (1000 * 60 * 60 * 24))
-  const weeksSinceReference = Math.floor(daysSinceReference / 7)
-  const fourWeekPeriods = Math.floor(weeksSinceReference / 4)
-  return REFERENCE_IS_NIGHT ? fourWeekPeriods % 2 === 0 : fourWeekPeriods % 2 === 1
+  const weekOffset = getWeekOffset(date)
+  const fourWeekPeriod = Math.floor(weekOffset / 4)
+  const isNightPeriod = ((fourWeekPeriod % 2) + 2) % 2 === 0
+  return isNightPeriod
 }
 
 function isWorkDay(date) {
