@@ -1,10 +1,9 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 
-// Reference: Aug 18, 2025 (night shift, 5-day week)
-const REFERENCE_DATE = new Date('2025-08-18')
+// Reference: Nov 24, 2025 (Monday, night shift, 5-day week)
+const REFERENCE_DATE = new Date('2025-11-24')
 const REFERENCE_IS_NIGHT = true
-const REFERENCE_IS_5_DAY_WEEK = true
 
 const WEEK_5_DAYS = [1, 2, 5, 6, 0] // Mon, Tue, Fri, Sat, Sun
 const WEEK_2_DAYS = [3, 4] // Wed, Thu
@@ -42,7 +41,8 @@ const calendarDays = computed(() => {
   const firstDay = new Date(year, month, 1)
   const lastDay = new Date(year, month + 1, 0)
   const daysInMonth = lastDay.getDate()
-  const startDayOfWeek = firstDay.getDay()
+  // Convert Sunday (0) to 6, Monday (1) to 0, etc. for Monday-first week
+  const startDayOfWeek = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1
   
   const days = []
   
@@ -94,7 +94,7 @@ const monthNames = [
   'July', 'August', 'September', 'October', 'November', 'December'
 ]
 
-const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
 // Get summary for current month
 const monthSummary = computed(() => {
