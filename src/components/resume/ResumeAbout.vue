@@ -47,7 +47,7 @@ const skills = computed(() =>
             </p>
             <p class="flex items-center">
                 <a
-                    href="https://linkedin.com/in/maatterkhan"
+                    href="https://linkedin.com/in/amatterkhan"
                     class="contact-link flex items-center group"
                 >
                     <font-awesome-icon
@@ -59,7 +59,7 @@ const skills = computed(() =>
             </p>
             <p class="flex items-center">
                 <a
-                    href="https://github.com/ma-asad"
+                    href="https://github.com/amatterkhan"
                     target="_blank"
                     class="contact-link flex items-center group"
                 >

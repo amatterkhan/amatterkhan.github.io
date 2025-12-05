@@ -16,7 +16,7 @@
     
     <!-- Interactive Command Input -->
     <div v-if="showInput" class="flex items-center mt-2 mb-8">
-      <span class="text-terminal-green mr-2 text-sm">ma-asad@terminal:~$</span>
+      <span class="text-terminal-green mr-2 text-sm">amatterkhan@terminal:~$</span>
       <input
         ref="commandInput"
         v-model="currentCommand"
@@ -88,12 +88,12 @@ const currentRole = computed(() => {
 
 onMounted(() => {
   const startupSequence = [
-    { text: 'Welcome to ma-asad@terminal', color: 'terminal-green' },
+    { text: 'Welcome to amatterkhan@terminal', color: 'terminal-green' },
     { text: 'Initializing system...', color: 'terminal-yellow' },
     { text: 'Loading user profile...', color: 'terminal-cyan' },
     { text: 'System ready.', color: 'terminal-green' },
     { text: '', color: 'terminal-green' },
-    { text: 'ma-asad@terminal:~$ cat about.txt', color: 'terminal-green' },
+    { text: 'amatterkhan@terminal:~$ cat about.txt', color: 'terminal-green' },
     { text: '', color: 'terminal-green' },
     { text: currentRole.value, color: 'terminal-cyan' },
     { text: commandsData.about.summary, color: 'terminal-yellow' },
@@ -102,10 +102,10 @@ onMounted(() => {
     { text: catFrames[0][0], color: 'terminal-yellow', isAsciiCat: true, catLineIndex: 0 },
     { text: catFrames[0][1], color: 'terminal-yellow', isAsciiCat: true, catLineIndex: 1 },
     { text: '', color: 'terminal-green' },
-    { text: 'ma-asad@terminal:~$ ls -la', color: 'terminal-green' },
+    { text: 'amatterkhan@terminal:~$ ls -la', color: 'terminal-green' },
     { text: '', color: 'terminal-green' },
-    { text: 'drwxr-xr-x 2 ma-asad ma-asad 4096 Jan 1 00:00 resume/', color: 'terminal-cyan' },
-    { text: 'drwxr-xr-x 2 ma-asad ma-asad 4096 Jan 1 00:00 blog/', color: 'terminal-cyan' },
+    { text: 'drwxr-xr-x 2 amatterkhan amatterkhan 4096 Jan 1 00:00 resume/', color: 'terminal-cyan' },
+    { text: 'drwxr-xr-x 2 amatterkhan amatterkhan 4096 Jan 1 00:00 blog/', color: 'terminal-cyan' },
     { text: '', color: 'terminal-green' }
   ]
 
@@ -121,7 +121,7 @@ onMounted(() => {
   }
   
   // Type whoami command
-  const prompt = 'ma-asad@terminal:~$ '
+  const prompt = 'amatterkhan@terminal:~$ '
   const command = 'whoami'
   const fullName = 'Mohammad Asad Atterkhan'
   
@@ -208,7 +208,7 @@ const executeCommand = () => {
   
   // Add command to output
   terminalOutput.value.push({ 
-    text: `ma-asad@terminal:~$ ${currentCommand.value}`, 
+    text: `amatterkhan@terminal:~$ ${currentCommand.value}`, 
     color: 'terminal-green' 
   })
   
