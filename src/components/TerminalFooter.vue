@@ -5,7 +5,7 @@
       <div v-if="isHomePage">Status: Online</div>
       <div v-else class="flex items-center gap-4">
         <a
-          href="https://github.com/ma-asad"
+          href="https://github.com/amatterkhan"
           target="_blank"
           rel="noopener noreferrer"
           class="hover:text-terminal-cyan transition-colors duration-200"
@@ -14,7 +14,7 @@
           <font-awesome-icon :icon="['fab', 'github']" class="text-base" />
         </a>
         <a
-          href="https://linkedin.com/in/maatterkhan"
+          href="https://linkedin.com/in/amatterkhan"
           target="_blank"
           rel="noopener noreferrer"
           class="hover:text-terminal-cyan transition-colors duration-200"
