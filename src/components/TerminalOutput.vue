@@ -16,7 +16,7 @@
     
     <!-- Interactive Command Input -->
     <div v-if="showInput" class="flex items-center mt-2 mb-8">
-      <span class="text-terminal-green mr-2 text-sm">amatterkhan@terminal:~$</span>
+      <span class="text-terminal-green mr-1 sm:mr-2 text-xs sm:text-sm">i@amatterkhan: ~$</span>
       <input
         ref="commandInput"
         v-model="currentCommand"
@@ -88,12 +88,12 @@ const currentRole = computed(() => {
 
 onMounted(() => {
   const startupSequence = [
-    { text: 'Welcome to amatterkhan@terminal', color: 'terminal-green' },
+    { text: 'Welcome to i@amatterkhan', color: 'terminal-green' },
     { text: 'Initializing system...', color: 'terminal-yellow' },
     { text: 'Loading user profile...', color: 'terminal-cyan' },
     { text: 'System ready.', color: 'terminal-green' },
     { text: '', color: 'terminal-green' },
-    { text: 'amatterkhan@terminal:~$ cat about.txt', color: 'terminal-green' },
+    { text: 'i@amatterkhan: ~$ cat about.txt', color: 'terminal-green' },
     { text: '', color: 'terminal-green' },
     { text: currentRole.value, color: 'terminal-cyan' },
     { text: commandsData.about.summary, color: 'terminal-yellow' },
@@ -101,11 +101,6 @@ onMounted(() => {
     { text: '', color: 'terminal-green' },
     { text: catFrames[0][0], color: 'terminal-yellow', isAsciiCat: true, catLineIndex: 0 },
     { text: catFrames[0][1], color: 'terminal-yellow', isAsciiCat: true, catLineIndex: 1 },
-    { text: '', color: 'terminal-green' },
-    { text: 'amatterkhan@terminal:~$ ls -la', color: 'terminal-green' },
-    { text: '', color: 'terminal-green' },
-    { text: 'drwxr-xr-x 2 amatterkhan amatterkhan 4096 Jan 1 00:00 resume/', color: 'terminal-cyan' },
-    { text: 'drwxr-xr-x 2 amatterkhan amatterkhan 4096 Jan 1 00:00 blog/', color: 'terminal-cyan' },
     { text: '', color: 'terminal-green' }
   ]
 
@@ -121,7 +116,7 @@ onMounted(() => {
   }
   
   // Type whoami command
-  const prompt = 'amatterkhan@terminal:~$ '
+  const prompt = 'i@amatterkhan: ~$ '
   const command = 'whoami'
   const fullName = 'Mohammad Asad Atterkhan'
   
@@ -208,7 +203,7 @@ const executeCommand = () => {
   
   // Add command to output
   terminalOutput.value.push({ 
-    text: `amatterkhan@terminal:~$ ${currentCommand.value}`, 
+    text: `i@amatterkhan: ~$ ${currentCommand.value}`, 
     color: 'terminal-green' 
   })
   
@@ -350,21 +345,26 @@ const processCommand = (cmd) => {
       terminalOutput.value.push({ text: '', color: 'terminal-green' })
       terminalOutput.value.push({ text: 'Featured Projects:', color: 'terminal-cyan' })
       terminalOutput.value.push({ text: '', color: 'terminal-green' })
-      projectsData.forEach((project, index) => {
-        terminalOutput.value.push({ 
-          text: `  ${index + 1}. ${project.title}`, 
-          color: 'terminal-highlight' 
+      const featuredProjects = projectsData.filter(p => p.featured === true)
+      if (featuredProjects.length === 0) {
+        terminalOutput.value.push({ text: '  No featured projects available', color: 'terminal-subtle' })
+      } else {
+        featuredProjects.forEach((project, index) => {
+          terminalOutput.value.push({ 
+            text: `  ${index + 1}. ${project.title}`, 
+            color: 'terminal-highlight' 
+          })
+          terminalOutput.value.push({ 
+            text: `     ${project.description}`, 
+            color: 'terminal-subtle' 
+          })
+          if (index < featuredProjects.length - 1) {
+            terminalOutput.value.push({ text: '', color: 'terminal-green' })
+          }
         })
-        terminalOutput.value.push({ 
-          text: `     ${project.description}`, 
-          color: 'terminal-subtle' 
-        })
-        if (index < projectsData.length - 1) {
-          terminalOutput.value.push({ text: '', color: 'terminal-green' })
-        }
-      })
+      }
       terminalOutput.value.push({ text: '', color: 'terminal-green' })
-      terminalOutput.value.push({ text: 'Type "resume" for full project details', color: 'terminal-yellow' })
+      terminalOutput.value.push({ text: 'Type "projects" in navigation or visit /projects for all projects', color: 'terminal-yellow' })
       terminalOutput.value.push({ text: '', color: 'terminal-green' })
       break
       
@@ -470,17 +470,25 @@ onBeforeUnmount(() => {
 
 .command-input {
   caret-color: var(--color-text-primary);
-  font-size: 16px; /* Prevent iOS zoom on focus */
+  font-size: 16px; /* Prevent iOS zoom on focus - minimum for mobile */
+  line-height: 1.2; /* Tighter line height to make it look more compact */
+  padding: 0; /* Remove any default padding */
 }
 
 .command-input::placeholder {
   color: var(--color-text-muted);
   opacity: 0.5;
+  font-size: 0.75rem; /* Smaller placeholder on mobile */
 }
 
 /* Desktop: use smaller font size */
 @media (min-width: 768px) {
   .command-input {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+  
+  .command-input::placeholder {
     font-size: 0.875rem;
   }
 }

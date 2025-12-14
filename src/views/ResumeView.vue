@@ -4,7 +4,6 @@ import ResumeSkills from '@/components/resume/ResumeSkills.vue'
 import ResumeWorkExp from '@/components/resume/ResumeWorkExp.vue';
 import ResumeEducation from '@/components/resume/ResumeEducation.vue';
 import ResumeCerts from '@/components/resume/ResumeCerts.vue';
-import ResumeProjects from '@/components/resume/ResumeProjects.vue';
 </script>
 
 <template>
@@ -19,7 +18,6 @@ import ResumeProjects from '@/components/resume/ResumeProjects.vue';
         <ResumeWorkExp />
         <ResumeEducation />
         <ResumeCerts />
-        <ResumeProjects />
       </section>
     </div>
   </div>

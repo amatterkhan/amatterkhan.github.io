@@ -16,5 +16,17 @@
         "title": "Certified in Cybersecurity (CC)",
         "issuer": "(ISC)²",
         "link": "https://www.credly.com/badges/e4df36ee-eb4b-494f-9450-3a93f801fee5?trk=public_profile_see-credential"
+    },
+    {
+        "id": 4,
+        "title": "Security+",
+        "issuer": "CompTIA",
+        "link": "https://www.credly.com/badges/262e1dc0-aefb-4456-b73d-316d1e5389cb/linked_in_profile"
+    },
+    {
+        "id": 5,
+        "title": "Oracle Certified Multicloud Architect Professional",
+        "issuer": "Oracle",
+        "link": "https://catalog-education.oracle.com/pls/certview/sharebadge?id=12C3D4DF0CA20AD7BC3722C5665DCD4F2B202CCF2C179793FE45196E8B470CAF"
     }
 ]

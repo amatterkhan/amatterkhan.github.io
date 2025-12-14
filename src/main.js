@@ -25,7 +25,11 @@ import {
     faArrowLeft,
     faHashtag,
     faSun,
-    faMoon
+    faMoon,
+    faBars,
+    faTimes,
+    faFileLines,
+    faStar
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -49,7 +53,11 @@ library.add(
     faArrowLeft,
     faHashtag,
     faSun,
-    faMoon
+    faMoon,
+    faBars,
+    faTimes,
+    faFileLines,
+    faStar
 )
 
 // Initialize theme before mounting app
