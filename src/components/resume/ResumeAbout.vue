@@ -35,14 +35,14 @@ const skills = computed(() =>
         >
             <p>
                 <a
-                    href="mailto:masad.atterkhan@gmail.com"
+                    href="mailto:work@amatterkhan.com"
                     class="contact-link flex items-center group"
                 >
                     <font-awesome-icon
                         :icon="['fas', 'envelope']"
                         class="contact-icon mr-2"
                     />
-                    masad.atterkhan@gmail.com</a
+                    work@amatterkhan.com</a
                 >
             </p>
             <p class="flex items-center">

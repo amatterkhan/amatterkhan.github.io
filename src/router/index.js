@@ -4,6 +4,8 @@ import BlogView from '../views/BlogView.vue'
 import NotFoundView from '../views/NotFoundView.vue'
 import IndividualPostView from '../views/IndividualPostView.vue'
 import ResumeView from '../views/ResumeView.vue'
+import ProjectsView from '../views/ProjectsView.vue'
+import IndividualProjectView from '../views/IndividualProjectView.vue'
 import ShiftCalendarView from '../views/ShiftCalendarView.vue'
 
 const router = createRouter({
@@ -29,6 +31,16 @@ const router = createRouter({
             path: '/resume',
             name: 'resume',
             component: ResumeView
+        },
+        {
+            path: '/projects',
+            name: 'projects',
+            component: ProjectsView
+        },
+        {
+            path: '/project/:id',
+            name: 'project',
+            component: IndividualProjectView
         },
         {
             path: '/calendar',

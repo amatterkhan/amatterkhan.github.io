@@ -3,15 +3,13 @@
     <!-- Terminal Header with Tabs -->
     <div class="terminal-header bg-terminal-bg-secondary border-b border-terminal-green w-full flex-shrink-0">
       <!-- Terminal Window Controls -->
-      <div class="flex items-center justify-between p-2 sm:p-4 border-b border-terminal-green w-full">
-        <div class="flex items-center space-x-1 sm:space-x-2">
+      <div class="flex items-center justify-between p-3 sm:p-4 border-b border-terminal-green w-full">
+        <div class="flex items-center space-x-2 sm:space-x-2">
           <div class="w-2 h-2 sm:w-3 sm:h-3 bg-terminal-red rounded-full"></div>
           <div class="w-2 h-2 sm:w-3 sm:h-3 bg-terminal-yellow rounded-full"></div>
           <div class="w-2 h-2 sm:w-3 sm:h-3 bg-terminal-green rounded-full"></div>
-          <span class="md:hidden ml-2 text-terminal-green text-xs">{{ mobilePrompt }}</span>
-          <span class="md:hidden terminal-cursor">_</span>
-          <span class="hidden md:inline ml-4 text-terminal-green text-sm">{{ currentPrompt }}</span>
-          <span class="hidden md:inline terminal-cursor">_</span>
+          <span class="hidden sm:inline ml-4 text-terminal-green text-sm">{{ currentPrompt }}</span>
+          <span class="hidden sm:inline terminal-cursor">_</span>
         </div>
         <div class="flex items-center gap-2 sm:gap-4">
           <ThemeSwitcher />
@@ -21,23 +19,62 @@
         </div>
       </div>
       
-      <!-- Navigation Tabs -->
-      <nav class="flex w-full">
+      <!-- Desktop Navigation Tabs -->
+      <nav class="hidden sm:flex w-full">
         <router-link
           v-for="tab in tabs"
           :key="tab.name"
           :to="tab.path"
           :class="[
-            'terminal-tab flex-1 px-2 py-2 sm:px-4 sm:py-3 border-r border-terminal-green transition-all duration-200 text-center text-xs sm:text-base',
+            'terminal-tab flex-1 px-4 py-3 border-r border-terminal-green transition-all duration-200 text-center text-base',
             $route.name === tab.name ? 'active bg-terminal-bg text-terminal-green' : 'bg-terminal-bg-secondary text-terminal-green hover:bg-terminal-bg-tertiary hover:text-terminal-cyan'
           ]"
         >
-          <div class="flex items-center justify-center space-x-1 sm:space-x-2">
+          <div class="flex items-center justify-center space-x-2">
             <span class="text-terminal-green">></span>
             <span class="font-terminal">{{ tab.label }}</span>
           </div>
         </router-link>
       </nav>
+
+      <!-- Mobile Navigation - Hamburger Menu -->
+      <div class="sm:hidden">
+        <button
+          @click="mobileMenuOpen = !mobileMenuOpen"
+          class="w-full flex items-center justify-between p-3 border-b border-terminal-green bg-terminal-bg-secondary hover:bg-terminal-bg-tertiary transition-colors duration-200"
+          aria-label="Toggle menu"
+        >
+          <div class="flex items-center gap-2">
+            <span class="text-terminal-green text-sm font-terminal">{{ mobilePrompt }}</span>
+            <span class="terminal-cursor">_</span>
+          </div>
+          <font-awesome-icon 
+            :icon="['fas', mobileMenuOpen ? 'times' : 'bars']" 
+            class="text-terminal-green text-lg"
+          />
+        </button>
+        <!-- Mobile Menu Dropdown -->
+        <div
+          v-if="mobileMenuOpen"
+          class="bg-terminal-bg-secondary border-b border-terminal-green"
+        >
+          <router-link
+            v-for="tab in tabs"
+            :key="tab.name"
+            :to="tab.path"
+            @click="mobileMenuOpen = false"
+            :class="[
+              'block px-4 py-3 border-b border-terminal-green/50 transition-all duration-200',
+              $route.name === tab.name ? 'active bg-terminal-bg text-terminal-green' : 'bg-terminal-bg-secondary text-terminal-green hover:bg-terminal-bg-tertiary hover:text-terminal-cyan'
+            ]"
+          >
+            <div class="flex items-center space-x-2">
+              <span class="text-terminal-green">></span>
+              <span class="font-terminal text-base">{{ tab.label }}</span>
+            </div>
+          </router-link>
+        </div>
+      </div>
     </div>
     
     <!-- Main Terminal Window -->
@@ -63,26 +100,30 @@ import ThemeSwitcher from './ThemeSwitcher.vue'
 
 const route = useRoute()
 const currentTime = ref('')
+const mobileMenuOpen = ref(false)
 
 const tabs = [
   { name: 'home', path: '/', label: 'home' },
   { name: 'resume', path: '/resume', label: 'resume' },
+  { name: 'projects', path: '/projects', label: 'projects' },
   { name: 'blog', path: '/blog', label: 'blog' },
 ]
 
 const currentPrompt = computed(() => {
-  const basePrompt = 'amatterkhan@terminal:~$'
+  const basePrompt = 'i@amatterkhan: ~$'
   const currentPath = route.name
   
   switch (currentPath) {
     case 'home':
-      return 'amatterkhan@terminal:~/home$'
+      return 'i@amatterkhan: ~/home$'
     case 'resume':
-      return 'amatterkhan@terminal:~/resume$'
+      return 'i@amatterkhan: ~/resume$'
+    case 'projects':
+      return 'i@amatterkhan: ~/projects$'
     case 'blog':
-      return 'amatterkhan@terminal:~/blog$'
+      return 'i@amatterkhan: ~/blog$'
     case 'calendar':
-      return 'amatterkhan@terminal:~/calendar$'
+      return 'i@amatterkhan: ~/calendar$'
     default:
       return basePrompt
   }
@@ -90,19 +131,8 @@ const currentPrompt = computed(() => {
 
 const mobilePrompt = computed(() => {
   const currentPath = route.name
-  
-  switch (currentPath) {
-    case 'home':
-      return '> ~/home$'
-    case 'resume':
-      return '> ~/resume$'
-    case 'blog':
-      return '> ~/blog$'
-    case 'calendar':
-      return '> ~/calendar$'
-    default:
-      return '> ~$'
-  }
+  const tab = tabs.find(t => t.name === currentPath)
+  return tab ? `> ~/${tab.label}$` : '> ~$'
 })
 
 let timeInterval
@@ -150,25 +180,9 @@ function updateTime() {
 }
 
 /* Mobile responsiveness */
-@media (max-width: 768px) {
-  .terminal-tab {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.875rem;
-  }
-  
+@media (max-width: 640px) {
   .terminal-content {
     padding: 1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .terminal-tab {
-    padding: 0.375rem 0.5rem;
-    font-size: 0.75rem;
-  }
-  
-  .terminal-content {
-    padding: 0.75rem;
   }
 }
 </style>
