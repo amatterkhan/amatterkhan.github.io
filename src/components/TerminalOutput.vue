@@ -16,7 +16,7 @@
     
     <!-- Interactive Command Input -->
     <div v-if="showInput" class="flex items-center mt-2 mb-8">
-      <span class="text-terminal-green mr-1 sm:mr-2 text-xs sm:text-sm">i@amatterkhan: ~$</span>
+      <span class="text-terminal-green mr-1 sm:mr-2 text-xs sm:text-sm">asad@atterkhan: ~$</span>
       <input
         ref="commandInput"
         v-model="currentCommand"
@@ -88,12 +88,12 @@ const currentRole = computed(() => {
 
 onMounted(() => {
   const startupSequence = [
-    { text: 'Welcome to i@amatterkhan', color: 'terminal-green' },
+    { text: 'Welcome to asad@atterkhan', color: 'terminal-green' },
     { text: 'Initializing system...', color: 'terminal-yellow' },
     { text: 'Loading user profile...', color: 'terminal-cyan' },
     { text: 'System ready.', color: 'terminal-green' },
     { text: '', color: 'terminal-green' },
-    { text: 'i@amatterkhan: ~$ cat about.txt', color: 'terminal-green' },
+    { text: 'asad@atterkhan: ~$ cat about.txt', color: 'terminal-green' },
     { text: '', color: 'terminal-green' },
     { text: currentRole.value, color: 'terminal-cyan' },
     { text: commandsData.about.summary, color: 'terminal-yellow' },
@@ -116,7 +116,7 @@ onMounted(() => {
   }
   
   // Type whoami command
-  const prompt = 'i@amatterkhan: ~$ '
+  const prompt = 'asad@atterkhan: ~$ '
   const command = 'whoami'
   const fullName = 'Mohammad Asad Atterkhan'
   
@@ -203,7 +203,7 @@ const executeCommand = () => {
   
   // Add command to output
   terminalOutput.value.push({ 
-    text: `i@amatterkhan: ~$ ${currentCommand.value}`, 
+    text: `asad@atterkhan: ~$ ${currentCommand.value}`, 
     color: 'terminal-green' 
   })
   
