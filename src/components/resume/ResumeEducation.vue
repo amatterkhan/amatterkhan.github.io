@@ -20,19 +20,20 @@ const isEducationOpen = ref(true)
     >
       <ul class="grid grid-cols-1 gap-4 text-terminal-green mb-4">
         <li v-for="(education, index) in educationData" :key="index" class="border border-terminal-green rounded-lg p-4">
-          <h4 class="text-lg md:text-xl font-semibold mb-2">
+          <h4 class="text-lg md:text-xl font-semibold mb-1">
             <a :href="education.degreeLink" target="_blank" rel="noopener noreferrer" class="degree-link transition-colors">
-              {{ education.field }}
+              {{ education.degree }} <span class="separator">|</span> <span class="university-name">{{ education.university }}</span>
             </a>
           </h4>
-          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 education-details text-sm mb-2">
-            <p>{{ education.degree }}</p>
-            <span class="hidden sm:block separator">|</span>
-            <p class="university-name">{{ education.university }}</p>
-          </div>
-          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 education-details text-sm">
-            <p>{{ education.classification }}</p>
-          </div>
+          <p class="field-name text-base font-semibold tracking-wide">
+            {{ education.field.toUpperCase() }}
+          </p>
+          <p class="education-details text-sm mt-1" v-if="education.isGraduated">
+            {{ education.classification }}
+          </p>
+          <p class="education-details text-sm mt-1" v-else>
+            {{ education.graduationDate }}
+          </p>
         </li>
       </ul>
     </div>
@@ -62,6 +63,10 @@ const isEducationOpen = ref(true)
 
 .separator {
   color: var(--color-text-subtle);
+}
+
+.field-name {
+  color: var(--color-text-highlight);
 }
 
 .cursor-pointer {
