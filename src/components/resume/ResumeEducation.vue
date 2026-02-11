@@ -28,7 +28,7 @@ const isEducationOpen = ref(true)
           <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 education-details text-sm mb-2">
             <p>{{ education.degree }}</p>
             <span class="hidden sm:block separator">|</span>
-            <p>{{ education.university }}</p>
+            <p class="university-name">{{ education.university }}</p>
           </div>
           <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 education-details text-sm">
             <p>{{ education.classification }}</p>
@@ -54,6 +54,10 @@ const isEducationOpen = ref(true)
 
 .education-details {
   color: var(--color-text-content);
+}
+
+.university-name {
+  color: var(--color-text-cyan);
 }
 
 .separator {
