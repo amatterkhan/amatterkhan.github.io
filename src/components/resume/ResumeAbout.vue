@@ -1,22 +1,7 @@
 <script setup>
-import { ref, computed } from 'vue'
-import skillsData from '@/data/skillsData.json'
+import { ref } from 'vue'
 
 const isAboutOpen = ref(true)
-
-const skills = computed(() =>
-    skillsData.map((s) => {
-        const idx = s.name.indexOf(':')
-        if (idx > -1) {
-            return {
-                id: s.id,
-                label: s.name.slice(0, idx).trim(),
-                detail: s.name.slice(idx + 1).trim()
-            }
-        }
-        return { id: s.id, label: s.name, detail: '' }
-    })
-)
 </script>
 
 <template>
@@ -91,13 +76,6 @@ const skills = computed(() =>
                 background in Windows and Linux environments, identity and access management, and enterprise IT
                 operations, with a growing focus on cloud and security engineering.
             </p>
-            <ul class="list-disc pl-5 space-y-1 marker-highlight">
-                <li v-for="s in skills" :key="s.id" class="text-terminal-content">
-                    <strong class="text-terminal-highlight">{{ s.label }}:</strong>
-                    <span v-if="s.detail"> {{ s.detail }}</span>
-                </li>
-            </ul>
-
         </div>
     </section>
 </template>
@@ -131,10 +109,6 @@ const skills = computed(() =>
 }
 
 .section-content strong {
-    color: var(--color-text-highlight);
-}
-
-.marker-highlight :deep(li::marker) {
     color: var(--color-text-highlight);
 }
 </style>

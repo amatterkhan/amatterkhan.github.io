@@ -1,6 +1,5 @@
 <script setup>
 import ResumeAbout from '@/components/resume/ResumeAbout.vue'
-import ResumeSkills from '@/components/resume/ResumeSkills.vue'
 import ResumeWorkExp from '@/components/resume/ResumeWorkExp.vue';
 import ResumeEducation from '@/components/resume/ResumeEducation.vue';
 import ResumeCerts from '@/components/resume/ResumeCerts.vue';

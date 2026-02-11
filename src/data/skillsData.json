@@ -1,9 +1,0 @@
-[
-    { "id": 1, "name": "System Administration: Windows, Mac, Linux, Microsoft 365, Hypervisors (VMware, Virtualbox, Hyper-V)" },
-    { "id": 2, "name": "Networking & Security: Firewalls, VPNs, Network Protocols (TCP/IP, DNS, DHCP)" },
-    { "id": 3, "name": "Identity & Access Management: Active Directory, Group Policy, Authentication, Okta" },
-    { "id": 4, "name": "Programming & Scripting: Python, C, C++, Bash, Batch, Powershell" },
-    { "id": 5, "name": "IT Infrastructure & Hardware: Industrial IT, PABX, Routers, Printers, IoT Devices" },
-    { "id": 6, "name": "ITSM: Freshservice, Manage Engine, Jira, MDM, Documentation" },
-    { "id": 7, "name": "Cybersecurity: Endpoint Security, Vulnerability Management, Incident Response" }
-]
