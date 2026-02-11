@@ -14,38 +14,45 @@ const router = createRouter({
         {
             path: '/',
             name: 'home',
-            component: HomeView
+            component: HomeView,
+            meta: { title: 'Asad Atterkhan' }
         },
         // Removed about route; about content is pinned in Blog (post 0)
         {
             path: '/blog',
             name: 'blog',
-            component: BlogView
+            component: BlogView,
+            meta: { title: 'Blog — Asad Atterkhan' }
         },
         {
             path: '/post/:id',
             name: 'post',
-            component: IndividualPostView
+            component: IndividualPostView,
+            meta: { title: 'Blog Post — Asad Atterkhan' }
         },
         {
             path: '/resume',
             name: 'resume',
-            component: ResumeView
+            component: ResumeView,
+            meta: { title: 'Resume — Asad Atterkhan' }
         },
         {
             path: '/projects',
             name: 'projects',
-            component: ProjectsView
+            component: ProjectsView,
+            meta: { title: 'Projects — Asad Atterkhan' }
         },
         {
             path: '/project/:id',
             name: 'project',
-            component: IndividualProjectView
+            component: IndividualProjectView,
+            meta: { title: 'Project — Asad Atterkhan' }
         },
         {
             path: '/calendar',
             name: 'calendar',
-            component: ShiftCalendarView
+            component: ShiftCalendarView,
+            meta: { title: 'Calendar — Asad Atterkhan' }
         },
         // Hidden redirect routes - handled by 404.html for direct access
         // These routes are intentionally not defined here to keep them hidden
@@ -53,9 +60,14 @@ const router = createRouter({
         {
             path: '/:catchAll(.*)',
             name: '404',
-            component: NotFoundView
+            component: NotFoundView,
+            meta: { title: 'Not Found — Asad Atterkhan' }
         }
     ]
+})
+
+router.afterEach((to) => {
+    document.title = to.meta?.title || 'Asad Atterkhan'
 })
 
 export default router
