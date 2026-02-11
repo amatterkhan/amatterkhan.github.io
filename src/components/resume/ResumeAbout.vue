@@ -35,14 +35,14 @@ const skills = computed(() =>
         >
             <p>
                 <a
-                    href="mailto:work@amatterkhan.com"
+                    href="mailto:contact@asad.atterkhan.com"
                     class="contact-link flex items-center group"
                 >
                     <font-awesome-icon
                         :icon="['fas', 'envelope']"
                         class="contact-icon mr-2"
                     />
-                    work@amatterkhan.com</a
+                    contact@asad.atterkhan.com</a
                 >
             </p>
             <p class="flex items-center">
@@ -85,10 +85,11 @@ const skills = computed(() =>
         </h3>
         <div v-if="isAboutOpen" class="section-content space-y-2">
             <p class="text-terminal-content leading-relaxed">
-                IT and Cybersecurity professional with hands-on experience in system administration, IT support, and
-                cybersecurity. Skilled in managing IT infrastructure across Windows, Linux, and IoT environments. Holds a BSc (Hons) in Computer Science
-                (Systems Engineering) and also a Certified Cybersecurity Technician (CCT) by EC-Council. Passionate about
-                cybersecurity, networking and automation.
+                IT and security professional with experience across IT support, systems administration, and security
+                operations, currently working in a SecOps role. Holds a BSc (Hons) in Computer Science (Systems
+                Engineering) and is pursuing a Master's in Computer Science at Georgia Institute of Technology. Strong
+                background in Windows and Linux environments, identity and access management, and enterprise IT
+                operations, with a growing focus on cloud and security engineering.
             </p>
             <ul class="list-disc pl-5 space-y-1 marker-highlight">
                 <li v-for="s in skills" :key="s.id" class="text-terminal-content">
