@@ -2,7 +2,7 @@
   <div class="terminal-commands fixed bottom-12 left-0 right-0 p-2 sm:p-4 border-t border-terminal-green bg-terminal-bg-secondary w-full z-10">
     <div class="flex flex-row gap-2 sm:gap-4 justify-center">
       <a
-        href="mailto:work@amatterkhan.com"
+        href="mailto:contact@asad.atterkhan.com"
         class="terminal-command-btn inline-flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 border border-terminal-green hover:bg-terminal-green transition-all duration-200 font-terminal group flex-1 sm:flex-initial"
         aria-label="Contact Me"
       >

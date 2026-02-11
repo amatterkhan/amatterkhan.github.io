@@ -1,5 +1,13 @@
 [
     {
+        "degree": "Master of Science",
+        "field": "Computer Science",
+        "university": "Georgia Institute of Technology",
+        "classification": "In Progress",
+        "degreeLink": "https://omscs.gatech.edu/",
+        "graduationDate": "Present"
+    },
+    {
         "degree": "Bachelor of Science (Hons)",
         "field": "Computer Science (Systems Engineering)",
         "university": "Middlesex University Mauritius",
