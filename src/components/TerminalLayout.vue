@@ -110,20 +110,20 @@ const tabs = [
 ]
 
 const currentPrompt = computed(() => {
-  const basePrompt = 'i@amatterkhan: ~$'
+  const basePrompt = 'asad@atterkhan: ~$'
   const currentPath = route.name
   
   switch (currentPath) {
     case 'home':
-      return 'i@amatterkhan: ~/home$'
+      return 'asad@atterkhan: ~/home$'
     case 'resume':
-      return 'i@amatterkhan: ~/resume$'
+      return 'asad@atterkhan: ~/resume$'
     case 'projects':
-      return 'i@amatterkhan: ~/projects$'
+      return 'asad@atterkhan: ~/projects$'
     case 'blog':
-      return 'i@amatterkhan: ~/blog$'
+      return 'asad@atterkhan: ~/blog$'
     case 'calendar':
-      return 'i@amatterkhan: ~/calendar$'
+      return 'asad@atterkhan: ~/calendar$'
     default:
       return basePrompt
   }
