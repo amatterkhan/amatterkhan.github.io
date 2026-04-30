@@ -210,10 +210,16 @@ onUnmounted(() => {
                     </defs>
                     <circle cx="0" cy="0" r="38" fill="url(#moon-glow)"/>
                     <circle cx="0" cy="0" r="14" fill="#eaf1fb" stroke="#a9c4e8" stroke-width="1"/>
-                    <circle cx="-4" cy="-3" r="2"   fill="#cdd9ec" opacity="0.75"/>
-                    <circle cx="3"  cy="2"  r="1.5" fill="#cdd9ec" opacity="0.75"/>
-                    <circle cx="5"  cy="-4" r="1"   fill="#cdd9ec" opacity="0.6"/>
-                    <path d="M-4 5 Q-2 7 0 5" stroke="#3a5fa8" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+                    <!-- crater texture away from face -->
+                    <circle cx="-7" cy="-6" r="1.2" fill="#cdd9ec" opacity="0.5"/>
+                    <circle cx="5"  cy="-7" r="0.8" fill="#cdd9ec" opacity="0.45"/>
+                    <!-- eyes -->
+                    <circle cx="-4" cy="0" r="1.1" fill="#3a5fa8"/>
+                    <circle cx="4"  cy="0" r="1.1" fill="#3a5fa8"/>
+                    <circle cx="-3.6" cy="-0.4" r="0.35" fill="#fff"/>
+                    <circle cx="4.4"  cy="-0.4" r="0.35" fill="#fff"/>
+                    <!-- smile (centred) -->
+                    <path d="M-3.5 5 Q0 8 3.5 5" stroke="#3a5fa8" stroke-width="0.8" fill="none" stroke-linecap="round"/>
                 </svg>
             </div>
 
@@ -504,46 +510,43 @@ onUnmounted(() => {
 
                                 <!-- ─── Saamiyah (right character, in hijab; ~92% of his height, uniform scale) ─── -->
                                 <g class="girl-group" transform="translate(11.2 9.52) scale(0.92)">
-                                    <!-- back drape over shoulders (modest, fits behind head) -->
-                                    <path d="M128 42 Q124 64 126 90 Q130 96 134 96 L136 66 Q134 50 132 44 Z" fill="#3a5fa8" stroke="#2c3a52" stroke-width="1"/>
-                                    <path d="M152 42 Q156 64 154 90 Q150 96 146 96 L144 66 Q146 50 148 44 Z" fill="#3a5fa8" stroke="#2c3a52" stroke-width="1"/>
-                                    <!-- hijab dome — closely framing the face -->
-                                    <path d="M129 34
-                                             Q129 22 140 22
-                                             Q151 22 151 34
-                                             Q151 41 149 44
-                                             L148 44
-                                             Q146 41 140 41
-                                             Q134 41 132 44
-                                             L131 44
-                                             Q129 41 129 34 Z"
-                                          fill="#5a7eb9" stroke="#2c3a52" stroke-width="1.2"/>
-                                    <!-- soft fold across the forehead -->
-                                    <path d="M132 26 Q140 24 148 26" stroke="#2c3a52" stroke-width="0.5" fill="none" opacity="0.55"/>
-                                    <!-- pin -->
+                                    <!-- back hijab drapes — same size as before, slightly richer tone -->
+                                    <path d="M128 42 Q124 64 126 90 Q130 96 134 96 L136 66 Q134 50 132 44 Z" fill="#4268a0" stroke="#2c3a52" stroke-width="0.9"/>
+                                    <path d="M152 42 Q156 64 154 90 Q150 96 146 96 L144 66 Q146 50 148 44 Z" fill="#4268a0" stroke="#2c3a52" stroke-width="0.9"/>
+                                    <path d="M128 48 Q124 65 126 86" stroke="#3a5fa8" stroke-width="0.4" fill="none" opacity="0.4"/>
+                                    <path d="M152 48 Q156 65 154 86" stroke="#3a5fa8" stroke-width="0.4" fill="none" opacity="0.4"/>
+
+                                    <!-- hijab dome -->
+                                    <path d="M129 34 Q129 22 140 22 Q151 22 151 34 Q151 41 149 44 L148 44 Q146 41 140 41 Q134 41 132 44 L131 44 Q129 41 129 34 Z" fill="#5a7eb9" stroke="#2c3a52" stroke-width="1.2"/>
+                                    <path d="M132 25 Q140 23 148 25" stroke="#7a9ed4" stroke-width="0.65" fill="none" opacity="0.55"/>
+                                    <path d="M133 28 Q140 26.5 147 28" stroke="#2c3a52" stroke-width="0.4" fill="none" opacity="0.38"/>
                                     <circle cx="131" cy="31" r="1.1" fill="#a9c4e8" stroke="#2c3a52" stroke-width="0.35"/>
                                     <circle cx="131" cy="31" r="0.4" fill="#1f2d4a"/>
-                                    <!-- face (visible) -->
-                                    <ellipse cx="140" cy="34" rx="9" ry="9.5" fill="#eaf1fb" stroke="#2c3a52" stroke-width="1.1"/>
-                                    <!-- eyebrows -->
-                                    <path d="M134 30.5 Q136 29.5 138 30.5" stroke="#2c3a52" stroke-width="0.8" fill="none" stroke-linecap="round"/>
-                                    <path d="M142 30.5 Q144 29.5 146 30.5" stroke="#2c3a52" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+
+                                    <!-- face — warm skin tone -->
+                                    <ellipse cx="140" cy="34" rx="9" ry="9.5" fill="#f0e8d8" stroke="#2c3a52" stroke-width="1.1"/>
+                                    <!-- eyebrows (arched) -->
+                                    <path d="M134 30 Q136.3 28.6 138.6 30" stroke="#2c3a52" stroke-width="0.9" fill="none" stroke-linecap="round"/>
+                                    <path d="M141.4 30 Q143.7 28.6 146 30" stroke="#2c3a52" stroke-width="0.9" fill="none" stroke-linecap="round"/>
                                     <!-- eyes -->
-                                    <ellipse cx="136" cy="33.5" rx="1.1" ry="1.4" fill="#1f2d4a"/>
-                                    <ellipse cx="144" cy="33.5" rx="1.1" ry="1.4" fill="#1f2d4a"/>
-                                    <circle cx="136.3" cy="33"   r="0.4" fill="#fff"/>
-                                    <circle cx="144.3" cy="33"   r="0.4" fill="#fff"/>
-                                    <!-- lashes -->
-                                    <line x1="134.5" y1="32.2" x2="133.6" y2="31.4" stroke="#2c3a52" stroke-width="0.55" stroke-linecap="round"/>
-                                    <line x1="145.5" y1="32.2" x2="146.4" y2="31.4" stroke="#2c3a52" stroke-width="0.55" stroke-linecap="round"/>
-                                    <!-- nose hint -->
+                                    <ellipse cx="136.2" cy="33.5" rx="1.3" ry="1.6" fill="#1f2d4a"/>
+                                    <ellipse cx="143.8" cy="33.5" rx="1.3" ry="1.6" fill="#1f2d4a"/>
+                                    <circle cx="136.5" cy="32.9" r="0.45" fill="#fff"/>
+                                    <circle cx="144.1" cy="32.9" r="0.45" fill="#fff"/>
+                                    <!-- lashes (two per side) -->
+                                    <line x1="134.9" y1="32.1" x2="133.8" y2="31.1" stroke="#2c3a52" stroke-width="0.6" stroke-linecap="round"/>
+                                    <line x1="136.2" y1="31.8" x2="135.5" y2="30.7" stroke="#2c3a52" stroke-width="0.5" stroke-linecap="round"/>
+                                    <line x1="145.1" y1="32.1" x2="146.2" y2="31.1" stroke="#2c3a52" stroke-width="0.6" stroke-linecap="round"/>
+                                    <line x1="143.8" y1="31.8" x2="144.5" y2="30.7" stroke="#2c3a52" stroke-width="0.5" stroke-linecap="round"/>
+                                    <!-- nose -->
                                     <path d="M139.7 37 Q140 38 140.3 37" stroke="#2c3a52" stroke-width="0.5" fill="none" stroke-linecap="round"/>
                                     <!-- smile -->
-                                    <path d="M136.5 40 Q140 42.5 143.5 40" stroke="#1f2d4a" stroke-width="1.1" fill="none" stroke-linecap="round"/>
-                                    <!-- blush -->
-                                    <ellipse cx="133" cy="38" rx="2" ry="1.1" fill="#d99baa" opacity="0.55"/>
-                                    <ellipse cx="147" cy="38" rx="2" ry="1.1" fill="#d99baa" opacity="0.55"/>
-                                    <!-- Abaya / long dress: starts at hijab neckline (no chest gap) -->
+                                    <path d="M136.5 40.5 Q140 43 143.5 40.5" stroke="#1f2d4a" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+                                    <!-- blush (rosy) -->
+                                    <ellipse cx="133.2" cy="38.5" rx="2.4" ry="1.3" fill="#e8a0b4" opacity="0.5"/>
+                                    <ellipse cx="146.8" cy="38.5" rx="2.4" ry="1.3" fill="#e8a0b4" opacity="0.5"/>
+
+                                    <!-- abaya — original silhouette kept, detail added on top -->
                                     <path d="M132 43
                                              Q140 47 148 43
                                              Q152 52 154 60
@@ -552,40 +555,70 @@ onUnmounted(() => {
                                              L117 119
                                              Q118 110 120 96
                                              Q122 78 126 60
-                                             Q128 52 132 43 Z" fill="#7a96d4" stroke="#2c3a52" stroke-width="1.2"/>
-                                    <!-- Left sleeve: filled fabric reaching toward joined hand -->
-                                    <path d="M128 52
-                                             Q120 56 110 64
-                                             Q109 67 112 68
-                                             Q120 64 130 60
-                                             Q132 56 128 52 Z"
+                                             Q128 52 132 43 Z"
+                                          fill="#7a96d4" stroke="#2c3a52" stroke-width="1.2"/>
+                                    <!-- symmetric centre highlight panel -->
+                                    <path d="M136.5 47 Q140 50 143.5 47 Q145 58 146 72 Q147 88 147 107 L133 107 Q133 88 134 72 Q135 58 136.5 47 Z"
+                                          fill="#9ab0e0" opacity="0.28"/>
+                                    <!-- left edge shading -->
+                                    <path d="M132 43 Q127 53 125 62 Q121 80 119 97 Q118 110 117 119 L122 119 Q122 110 124 97 Q127 80 130 62 Q133 52 132 43 Z"
+                                          fill="#3a5fa8" opacity="0.15"/>
+                                    <!-- right edge shading (mirror) -->
+                                    <path d="M148 43 Q153 53 155 62 Q159 80 161 97 Q162 110 163 119 L158 119 Q158 110 156 97 Q153 80 150 62 Q147 52 148 43 Z"
+                                          fill="#3a5fa8" opacity="0.15"/>
+
+                                    <!-- left sleeve -->
+                                    <path d="M128 52 Q120 56 110 64 Q109 67 112 68 Q120 64 130 60 Q132 56 128 52 Z"
                                           fill="#7a96d4" stroke="#2c3a52" stroke-width="1"/>
-                                    <!-- Right sleeve: filled fabric holding the tulip -->
-                                    <path d="M152 52
-                                             Q160 58 166 68
-                                             Q166 71 163 71
-                                             Q156 64 150 60
-                                             Q148 56 152 52 Z"
+                                    <path d="M128 54 Q121 58 113 65" stroke="#5a7eb9" stroke-width="0.5" fill="none" opacity="0.5"/>
+
+                                    <!-- right sleeve -->
+                                    <path d="M152 52 Q160 58 166 68 Q166 71 163 71 Q156 64 150 60 Q148 56 152 52 Z"
                                           fill="#7a96d4" stroke="#2c3a52" stroke-width="1"/>
-                                    <!-- decorative hijab tail folds resting on shoulders -->
+                                    <path d="M152 54 Q159 60 165 69" stroke="#5a7eb9" stroke-width="0.5" fill="none" opacity="0.5"/>
+
+                                    <!-- hijab front shoulder drapes -->
                                     <path d="M131 44 Q128 54 130 60 L134 58 Q134 50 134 46 Z" fill="#5a7eb9" stroke="#2c3a52" stroke-width="0.9"/>
                                     <path d="M149 44 Q152 54 150 60 L146 58 Q146 50 146 46 Z" fill="#5a7eb9" stroke="#2c3a52" stroke-width="0.9"/>
-                                    <!-- pleats (down centre) -->
-                                    <path d="M134 64 Q132 92 130 116" stroke="#5a7eb9" stroke-width="0.7" fill="none" opacity="0.6"/>
-                                    <path d="M140 64 L140 116" stroke="#5a7eb9" stroke-width="0.7" fill="none" opacity="0.5"/>
-                                    <path d="M146 64 Q148 92 150 116" stroke="#5a7eb9" stroke-width="0.7" fill="none" opacity="0.6"/>
-                                    <!-- subtle neckline curve -->
-                                    <path d="M133 46 Q140 49 147 46" stroke="#3a5fa8" stroke-width="0.7" fill="none" opacity="0.7"/>
-                                    <!-- hem trim -->
-                                    <path d="M117 119 Q140 117 163 119" stroke="#3a5fa8" stroke-width="0.9" fill="none"/>
-                                    <!-- her hand peeking from left sleeve, meeting his -->
-                                    <circle cx="111" cy="66.5" r="1.6" fill="#eaf1fb" stroke="#2c3a52" stroke-width="0.6"/>
-                                    <!-- her right hand peeking from right sleeve, holding tulip -->
-                                    <circle cx="164" cy="69" r="1.6" fill="#eaf1fb" stroke="#2c3a52" stroke-width="0.6"/>
-                                    <!-- tulip in her right hand -->
+
+                                    <!-- dress pleats (three centre + two outer) -->
+                                    <path d="M134 64 Q132 90 130 116" stroke="#5a7eb9" stroke-width="0.65" fill="none" opacity="0.5"/>
+                                    <path d="M140 64 L140 116"         stroke="#5a7eb9" stroke-width="0.65" fill="none" opacity="0.4"/>
+                                    <path d="M146 64 Q148 90 150 116" stroke="#5a7eb9" stroke-width="0.65" fill="none" opacity="0.5"/>
+                                    <path d="M126 66 Q123 90 121 116" stroke="#5a7eb9" stroke-width="0.5"  fill="none" opacity="0.35"/>
+                                    <path d="M154 66 Q157 90 159 116" stroke="#5a7eb9" stroke-width="0.5"  fill="none" opacity="0.35"/>
+
+                                    <!-- neckline -->
+                                    <path d="M133 46 Q140 49 147 46" stroke="#3a5fa8" stroke-width="0.65" fill="none" opacity="0.65"/>
+
+                                    <!-- hem decorative band -->
+                                    <path d="M117 116 Q140 114 163 116 L163 119 L117 119 Z" fill="#4268a0" opacity="0.55"/>
+                                    <path d="M117 116 Q140 114 163 116" stroke="#3a5fa8" stroke-width="0.85" fill="none"/>
+                                    <!-- hem dots + diamonds (symmetric) -->
+                                    <g fill="#a9c4e8" opacity="0.75">
+                                        <circle cx="126" cy="117.5" r="0.75"/>
+                                        <circle cx="133" cy="117"   r="0.75"/>
+                                        <circle cx="140" cy="117"   r="0.75"/>
+                                        <circle cx="147" cy="117"   r="0.75"/>
+                                        <circle cx="154" cy="117.5" r="0.75"/>
+                                    </g>
+                                    <g stroke="#7a9ed4" stroke-width="0.4" fill="#a9c4e8" fill-opacity="0.3" opacity="0.7">
+                                        <path d="M129 117.5 l1.3 -1.3 l1.3 1.3 l-1.3 1.3 Z"/>
+                                        <path d="M136 117   l1.3 -1.3 l1.3 1.3 l-1.3 1.3 Z"/>
+                                        <path d="M143 117   l1.3 -1.3 l1.3 1.3 l-1.3 1.3 Z"/>
+                                        <path d="M150 117.5 l1.3 -1.3 l1.3 1.3 l-1.3 1.3 Z"/>
+                                    </g>
+
+                                    <!-- her left hand (meeting his) -->
+                                    <circle cx="111" cy="66.5" r="1.7" fill="#f0e8d8" stroke="#2c3a52" stroke-width="0.6"/>
+                                    <!-- her right hand (holding tulip) -->
+                                    <circle cx="164" cy="69" r="1.7" fill="#f0e8d8" stroke="#2c3a52" stroke-width="0.6"/>
+                                    <!-- tulip — fuller, with leaf -->
                                     <g transform="translate(166 67)">
-                                        <path d="M0 5 Q-3 1 -3 -3 Q-1 -6 0 -4 Q1 -6 3 -3 Q3 1 0 5 Z" fill="#a9c4e8" stroke="#2c3a52" stroke-width="0.5"/>
-                                        <path d="M0 5 Q1 9 2 13" stroke="#4f7a8a" stroke-width="1" fill="none"/>
+                                        <path d="M0 5 Q0.5 10 1.5 15" stroke="#4f7a8a" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+                                        <path d="M1 10 Q5 8 4.5 13 Q2.5 14 1 10" fill="#3d6573" stroke="#2c4d59" stroke-width="0.4"/>
+                                        <path d="M0 5 Q-4 0 -3.5 -5 Q-1.5 -8 0 -5.5 Q1.5 -8 3.5 -5 Q4 0 0 5 Z" fill="#a9c4e8" stroke="#2c3a52" stroke-width="0.5"/>
+                                        <path d="M0 4 Q-0.5 0 0 -4.5" stroke="#c8dcf0" stroke-width="0.5" fill="none" opacity="0.65" stroke-linecap="round"/>
                                     </g>
                                 </g>
 
