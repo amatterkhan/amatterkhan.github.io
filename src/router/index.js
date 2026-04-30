@@ -56,6 +56,12 @@ const router = createRouter({
         },
         // Hidden redirect routes - handled by 404.html for direct access
         // These routes are intentionally not defined here to keep them hidden
+        {
+            path: '/you',
+            name: 'you',
+            component: () => import('../views/YouView.vue'),
+            meta: { bare: true }
+        },
         // Catch-all route for 404 Not Found
         {
             path: '/:catchAll(.*)',
