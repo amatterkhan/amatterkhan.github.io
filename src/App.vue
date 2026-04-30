@@ -1,7 +1,11 @@
 <script setup>
-import TerminalLayout from '@/components/TerminalLayout.vue';
+import { useRoute } from 'vue-router'
+import TerminalLayout from '@/components/TerminalLayout.vue'
+
+const route = useRoute()
 </script>
 
 <template>
-  <TerminalLayout />
+  <router-view v-if="route.meta?.bare" />
+  <TerminalLayout v-else />
 </template>
