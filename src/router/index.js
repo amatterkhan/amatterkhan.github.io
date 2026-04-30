@@ -54,8 +54,6 @@ const router = createRouter({
             component: ShiftCalendarView,
             meta: { title: 'Calendar — Asad Atterkhan' }
         },
-        // Hidden redirect routes - handled by 404.html for direct access
-        // These routes are intentionally not defined here to keep them hidden
         // Catch-all route for 404 Not Found
         {
             path: '/:catchAll(.*)',
