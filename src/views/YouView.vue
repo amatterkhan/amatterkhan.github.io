@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 
 const leftTulips = [
     { left: '4%',  bottom: '0px', h: 1.0,  delay: '0.05s', color1: '#3a5fa8', color2: '#7a96d4' },
@@ -33,7 +33,6 @@ const stage = ref('envelope') // 'envelope' | 'loading' | 'letter'
 const sealCracking = ref(false)
 const flapOpen = ref(false)
 const loadingIndex = ref(0)
-const walkerStarted = ref(false)
 const heartParticles = ref([])
 const sealBurst = ref([])
 const alreadyOpened = ref(false)
@@ -61,26 +60,14 @@ const LOADING_TOTAL = LOADING_PER_LINE * loadingLines.length // ~8.4s
 let loadingTimer = null
 let stageTimer = null
 let stampTimer = null
-let walkerTimer = null
 
 function clearTimers() {
     if (loadingTimer) { clearInterval(loadingTimer); loadingTimer = null }
     if (stageTimer)   { clearTimeout(stageTimer);   stageTimer = null }
-    if (walkerTimer)  { clearTimeout(walkerTimer);  walkerTimer = null }
-}
-
-function startWalker() {
-    walkerStarted.value = false
-    nextTick(() => {
-        walkerTimer = setTimeout(() => { walkerStarted.value = true }, 60)
-    })
 }
 
 function showLetter() {
     stage.value = 'letter'
-    nextTick(() => {
-        walkerTimer = setTimeout(() => { walkerStarted.value = true }, 1400)
-    })
 }
 
 function openEnvelope() {
@@ -123,7 +110,6 @@ function openEnvelope() {
 function closeLetter() {
     if (closing.value) return
     closing.value = true
-    walkerStarted.value = false
     setTimeout(() => {
         stage.value = 'envelope'
         flapOpen.value = false
@@ -131,8 +117,6 @@ function closeLetter() {
         closing.value = false
     }, 650)
 }
-
-function replayWalker() { startWalker() }
 
 function spawnHearts(event) {
     const rect = event.currentTarget.getBoundingClientRect()
@@ -472,126 +456,151 @@ onUnmounted(() => {
                             <p class="ar-from">من أسد</p>
                         </footer>
 
-                        <!-- Walker scene: stickman + cat walks in to stickgirl, kisses her -->
-                        <div class="walker-track">
-                            <!-- Stickgirl (stationary, in middle) — wearing a hijab (face fully visible) -->
-                            <div class="girl">
-                                <svg viewBox="0 0 40 80" class="char-svg">
-                                    <!-- Back drape of hijab: flows behind head and over shoulders -->
-                                    <path d="M5 24 Q3 38 5 50 Q8 54 12 52 L13 38 Q12 30 11 26 Z"  fill="#3a5fa8" stroke="#1f2d4a" stroke-width="1.2"/>
-                                    <path d="M29 24 Q31 38 29 50 Q26 54 22 52 L21 38 Q22 30 23 26 Z" fill="#3a5fa8" stroke="#1f2d4a" stroke-width="1.2"/>
+                        <!-- Couple scene: Asad + cat holding hands with Saamiyah (single SVG composition) -->
+                        <div class="couple-scene" aria-hidden="true">
+                            <svg viewBox="0 0 240 130" class="couple-svg">
+                                <!-- ─── Cat (left of Asad) ─── -->
+                                <g class="cat-group">
+                                    <ellipse cx="22" cy="106" rx="13" ry="8" fill="#2c3a52"/>
+                                    <circle cx="22" cy="92" r="9" fill="#2c3a52"/>
+                                    <polygon points="14,88 17,78 20,86" fill="#2c3a52"/>
+                                    <polygon points="24,86 27,78 30,88" fill="#2c3a52"/>
+                                    <polygon points="16,86 17.5,82 19,86" fill="#d99baa"/>
+                                    <polygon points="25,86 27,82 28.5,86" fill="#d99baa"/>
+                                    <circle cx="19" cy="92" r="1.4" fill="#a9c4e8"/>
+                                    <circle cx="25" cy="92" r="1.4" fill="#a9c4e8"/>
+                                    <circle cx="19.3" cy="91.5" r="0.4" fill="#fff"/>
+                                    <circle cx="25.3" cy="91.5" r="0.4" fill="#fff"/>
+                                    <ellipse cx="22" cy="95.5" rx="1" ry="0.7" fill="#d99baa"/>
+                                    <path d="M22 96.2 Q20 97.4 18.6 97 M22 96.2 Q24 97.4 25.4 97" stroke="#1f2d4a" stroke-width="0.4" fill="none" stroke-linecap="round"/>
+                                    <line x1="13" y1="93" x2="9"  y2="91" stroke="#2c3a52" stroke-width="0.4"/>
+                                    <line x1="13" y1="94" x2="9"  y2="94" stroke="#2c3a52" stroke-width="0.4"/>
+                                    <line x1="31" y1="93" x2="35" y2="91" stroke="#2c3a52" stroke-width="0.4"/>
+                                    <line x1="31" y1="94" x2="35" y2="94" stroke="#2c3a52" stroke-width="0.4"/>
+                                    <path class="cat-tail" d="M35 102 Q44 88 40 76" stroke="#2c3a52" stroke-width="3" fill="none" stroke-linecap="round"/>
+                                    <ellipse cx="16" cy="115" rx="3" ry="1.5" fill="#1f2d4a"/>
+                                    <ellipse cx="28" cy="115" rx="3" ry="1.5" fill="#1f2d4a"/>
+                                </g>
 
-                                    <!-- Hijab base: rounded fabric framing the face (head fully wrapped above forehead) -->
-                                    <ellipse cx="17" cy="22" rx="11" ry="11" fill="#5a7eb9" stroke="#1f2d4a" stroke-width="1.4"/>
+                                <!-- ─── Asad (left character) ─── -->
+                                <g class="man-group">
+                                    <!-- Plain stickman head — no hair, no cap -->
+                                    <circle cx="70" cy="32" r="11" fill="none" stroke="#1f2d4a" stroke-width="2"/>
+                                    <!-- eyes -->
+                                    <circle cx="66" cy="32" r="1.1" fill="#1f2d4a"/>
+                                    <circle cx="74" cy="32" r="1.1" fill="#1f2d4a"/>
+                                    <!-- soft smile -->
+                                    <path d="M66 36 Q70 39 74 36" stroke="#1f2d4a" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+                                    <!-- body line -->
+                                    <line x1="70" y1="43" x2="70" y2="84" stroke="#1f2d4a" stroke-width="2.2" stroke-linecap="round"/>
+                                    <!-- left arm down by side -->
+                                    <line x1="70" y1="54" x2="58" y2="78" stroke="#1f2d4a" stroke-width="2.2" stroke-linecap="round"/>
+                                    <!-- right arm reaching across (and slightly down) to her hand -->
+                                    <path d="M70 54 Q90 62 111 70" stroke="#1f2d4a" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+                                    <!-- legs -->
+                                    <line x1="70" y1="84" x2="60" y2="116" stroke="#1f2d4a" stroke-width="2.2" stroke-linecap="round"/>
+                                    <line x1="70" y1="84" x2="80" y2="116" stroke="#1f2d4a" stroke-width="2.2" stroke-linecap="round"/>
+                                </g>
 
-                                    <!-- Soft fold line across the forehead -->
-                                    <path d="M9 16 Q17 13 25 16" stroke="#1f2d4a" stroke-width="0.5" fill="none" opacity="0.55"/>
-
-                                    <!-- Face is fully visible: skin-toned oval inside the hijab opening -->
-                                    <ellipse cx="17" cy="23" rx="6.5" ry="7" fill="#eaf1fb" stroke="#1f2d4a" stroke-width="1.2"/>
-
-                                    <!-- Tiny pin/flower on the hijab beside her face -->
-                                    <circle cx="9" cy="22" r="1.2" fill="#a9c4e8" stroke="#1f2d4a" stroke-width="0.35"/>
-                                    <circle cx="9" cy="22" r="0.4" fill="#1f2d4a"/>
-
-                                    <!-- Front hijab drape coming down over the chest -->
-                                    <path d="M9.5 28 Q7 36 8 46 L13.5 44 Q13.5 36 12 30 Z"  fill="#5a7eb9" stroke="#1f2d4a" stroke-width="1.2"/>
-                                    <path d="M24.5 28 Q27 36 26 46 L20.5 44 Q20.5 36 22 30 Z" fill="#5a7eb9" stroke="#1f2d4a" stroke-width="1.2"/>
-
-                                    <!-- Eyes -->
-                                    <circle cx="14.5" cy="22" r="0.9" fill="#1f2d4a"/>
-                                    <circle cx="19.5" cy="22" r="0.9" fill="#1f2d4a"/>
-                                    <!-- Lashes -->
-                                    <line x1="13.6" y1="21" x2="12.9" y2="20.4" stroke="#1f2d4a" stroke-width="0.6" stroke-linecap="round"/>
-                                    <line x1="20.4" y1="21" x2="21.1" y2="20.4" stroke="#1f2d4a" stroke-width="0.6" stroke-linecap="round"/>
-                                    <!-- Smile -->
-                                    <path d="M14 26 Q17 28 20 26" stroke="#1f2d4a" stroke-width="1.2" fill="none" stroke-linecap="round"/>
-                                    <!-- Blush -->
-                                    <circle cx="13" cy="25" r="1.2" fill="#d99baa" opacity="0.6"/>
-                                    <circle cx="21" cy="25" r="1.2" fill="#d99baa" opacity="0.6"/>
-                                    <!-- Modest long dress (abaya style) — long, flowing, covers arms -->
-                                    <path d="M9 38
-                                             L25 38
-                                             Q26 50 27 60
-                                             Q29 70 30 76
-                                             L4 76
-                                             Q5 70 7 60
-                                             Q8 50 9 38 Z" fill="#7a96d4" stroke="#1f2d4a" stroke-width="1.4"/>
-                                    <!-- Subtle pleat / drape lines on dress -->
-                                    <path d="M13 42 Q12 56 10 74" stroke="#5a7eb9" stroke-width="0.6" fill="none" opacity="0.6"/>
-                                    <path d="M17 42 L17 74" stroke="#5a7eb9" stroke-width="0.6" fill="none" opacity="0.5"/>
-                                    <path d="M21 42 Q22 56 24 74" stroke="#5a7eb9" stroke-width="0.6" fill="none" opacity="0.6"/>
-                                    <!-- Decorative trim along neckline of abaya -->
-                                    <path d="M11 40 Q17 42 23 40" stroke="#3a5fa8" stroke-width="0.9" fill="none"/>
-                                    <!-- Hem trim -->
-                                    <path d="M4 76 Q17 74 30 76" stroke="#3a5fa8" stroke-width="0.9" fill="none"/>
-                                    <!-- Long sleeves (cover arms) -->
-                                    <path d="M9 40 L4 50 Q4 52 6 52 L11 44 Z"  fill="#7a96d4" stroke="#1f2d4a" stroke-width="1.2"/>
-                                    <path d="M25 40 L30 50 Q30 52 28 52 L23 44 Z" fill="#7a96d4" stroke="#1f2d4a" stroke-width="1.2"/>
-                                    <!-- Hand peeking from sleeve, holding flower -->
-                                    <circle cx="29" cy="51" r="1.6" fill="#eaf1fb" stroke="#1f2d4a" stroke-width="0.6"/>
-                                    <!-- Tiny flower in her hand -->
-                                    <g transform="translate(31.5 50.5)">
-                                        <circle cx="0" cy="0" r="1.5" fill="#a9c4e8" stroke="#1f2d4a" stroke-width="0.4"/>
-                                        <circle cx="-1.5" cy="0" r="1.1" fill="#a9c4e8" stroke="#1f2d4a" stroke-width="0.3"/>
-                                        <circle cx="1.5" cy="0" r="1.1" fill="#a9c4e8" stroke="#1f2d4a" stroke-width="0.3"/>
-                                        <circle cx="0" cy="-1.3" r="1.1" fill="#dde7f5" stroke="#1f2d4a" stroke-width="0.3"/>
+                                <!-- ─── Saamiyah (right character, in hijab; ~92% of his height, uniform scale) ─── -->
+                                <g class="girl-group" transform="translate(11.2 9.52) scale(0.92)">
+                                    <!-- back drape over shoulders (modest, fits behind head) -->
+                                    <path d="M128 42 Q124 64 126 90 Q130 96 134 96 L136 66 Q134 50 132 44 Z" fill="#3a5fa8" stroke="#2c3a52" stroke-width="1"/>
+                                    <path d="M152 42 Q156 64 154 90 Q150 96 146 96 L144 66 Q146 50 148 44 Z" fill="#3a5fa8" stroke="#2c3a52" stroke-width="1"/>
+                                    <!-- hijab dome — closely framing the face -->
+                                    <path d="M129 34
+                                             Q129 22 140 22
+                                             Q151 22 151 34
+                                             Q151 41 149 44
+                                             L148 44
+                                             Q146 41 140 41
+                                             Q134 41 132 44
+                                             L131 44
+                                             Q129 41 129 34 Z"
+                                          fill="#5a7eb9" stroke="#2c3a52" stroke-width="1.2"/>
+                                    <!-- soft fold across the forehead -->
+                                    <path d="M132 26 Q140 24 148 26" stroke="#2c3a52" stroke-width="0.5" fill="none" opacity="0.55"/>
+                                    <!-- pin -->
+                                    <circle cx="131" cy="31" r="1.1" fill="#a9c4e8" stroke="#2c3a52" stroke-width="0.35"/>
+                                    <circle cx="131" cy="31" r="0.4" fill="#1f2d4a"/>
+                                    <!-- face (visible) -->
+                                    <ellipse cx="140" cy="34" rx="9" ry="9.5" fill="#eaf1fb" stroke="#2c3a52" stroke-width="1.1"/>
+                                    <!-- eyebrows -->
+                                    <path d="M134 30.5 Q136 29.5 138 30.5" stroke="#2c3a52" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+                                    <path d="M142 30.5 Q144 29.5 146 30.5" stroke="#2c3a52" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+                                    <!-- eyes -->
+                                    <ellipse cx="136" cy="33.5" rx="1.1" ry="1.4" fill="#1f2d4a"/>
+                                    <ellipse cx="144" cy="33.5" rx="1.1" ry="1.4" fill="#1f2d4a"/>
+                                    <circle cx="136.3" cy="33"   r="0.4" fill="#fff"/>
+                                    <circle cx="144.3" cy="33"   r="0.4" fill="#fff"/>
+                                    <!-- lashes -->
+                                    <line x1="134.5" y1="32.2" x2="133.6" y2="31.4" stroke="#2c3a52" stroke-width="0.55" stroke-linecap="round"/>
+                                    <line x1="145.5" y1="32.2" x2="146.4" y2="31.4" stroke="#2c3a52" stroke-width="0.55" stroke-linecap="round"/>
+                                    <!-- nose hint -->
+                                    <path d="M139.7 37 Q140 38 140.3 37" stroke="#2c3a52" stroke-width="0.5" fill="none" stroke-linecap="round"/>
+                                    <!-- smile -->
+                                    <path d="M136.5 40 Q140 42.5 143.5 40" stroke="#1f2d4a" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+                                    <!-- blush -->
+                                    <ellipse cx="133" cy="38" rx="2" ry="1.1" fill="#d99baa" opacity="0.55"/>
+                                    <ellipse cx="147" cy="38" rx="2" ry="1.1" fill="#d99baa" opacity="0.55"/>
+                                    <!-- Abaya / long dress: starts at hijab neckline (no chest gap) -->
+                                    <path d="M132 43
+                                             Q140 47 148 43
+                                             Q152 52 154 60
+                                             Q158 78 160 96
+                                             Q162 110 163 119
+                                             L117 119
+                                             Q118 110 120 96
+                                             Q122 78 126 60
+                                             Q128 52 132 43 Z" fill="#7a96d4" stroke="#2c3a52" stroke-width="1.2"/>
+                                    <!-- Left sleeve: filled fabric reaching toward joined hand -->
+                                    <path d="M128 52
+                                             Q120 56 110 64
+                                             Q109 67 112 68
+                                             Q120 64 130 60
+                                             Q132 56 128 52 Z"
+                                          fill="#7a96d4" stroke="#2c3a52" stroke-width="1"/>
+                                    <!-- Right sleeve: filled fabric holding the tulip -->
+                                    <path d="M152 52
+                                             Q160 58 166 68
+                                             Q166 71 163 71
+                                             Q156 64 150 60
+                                             Q148 56 152 52 Z"
+                                          fill="#7a96d4" stroke="#2c3a52" stroke-width="1"/>
+                                    <!-- decorative hijab tail folds resting on shoulders -->
+                                    <path d="M131 44 Q128 54 130 60 L134 58 Q134 50 134 46 Z" fill="#5a7eb9" stroke="#2c3a52" stroke-width="0.9"/>
+                                    <path d="M149 44 Q152 54 150 60 L146 58 Q146 50 146 46 Z" fill="#5a7eb9" stroke="#2c3a52" stroke-width="0.9"/>
+                                    <!-- pleats (down centre) -->
+                                    <path d="M134 64 Q132 92 130 116" stroke="#5a7eb9" stroke-width="0.7" fill="none" opacity="0.6"/>
+                                    <path d="M140 64 L140 116" stroke="#5a7eb9" stroke-width="0.7" fill="none" opacity="0.5"/>
+                                    <path d="M146 64 Q148 92 150 116" stroke="#5a7eb9" stroke-width="0.7" fill="none" opacity="0.6"/>
+                                    <!-- subtle neckline curve -->
+                                    <path d="M133 46 Q140 49 147 46" stroke="#3a5fa8" stroke-width="0.7" fill="none" opacity="0.7"/>
+                                    <!-- hem trim -->
+                                    <path d="M117 119 Q140 117 163 119" stroke="#3a5fa8" stroke-width="0.9" fill="none"/>
+                                    <!-- her hand peeking from left sleeve, meeting his -->
+                                    <circle cx="111" cy="66.5" r="1.6" fill="#eaf1fb" stroke="#2c3a52" stroke-width="0.6"/>
+                                    <!-- her right hand peeking from right sleeve, holding tulip -->
+                                    <circle cx="164" cy="69" r="1.6" fill="#eaf1fb" stroke="#2c3a52" stroke-width="0.6"/>
+                                    <!-- tulip in her right hand -->
+                                    <g transform="translate(166 67)">
+                                        <path d="M0 5 Q-3 1 -3 -3 Q-1 -6 0 -4 Q1 -6 3 -3 Q3 1 0 5 Z" fill="#a9c4e8" stroke="#2c3a52" stroke-width="0.5"/>
+                                        <path d="M0 5 Q1 9 2 13" stroke="#4f7a8a" stroke-width="1" fill="none"/>
                                     </g>
-                                    <!-- Other hand peeking -->
-                                    <circle cx="5" cy="51" r="1.6" fill="#eaf1fb" stroke="#1f2d4a" stroke-width="0.6"/>
-                                    <!-- Shoes peeking from hem -->
-                                    <path d="M11 76 Q14 78 16 76" stroke="#1f2d4a" stroke-width="1.6" fill="#1f2d4a"/>
-                                    <path d="M18 76 Q20 78 23 76" stroke="#1f2d4a" stroke-width="1.6" fill="#1f2d4a"/>
-                                </svg>
-                            </div>
+                                </g>
 
-                            <!-- Asad + cat (static, holding hands with Saamiyah) -->
-                            <div class="walker">
-                                <svg viewBox="0 0 100 80" class="char-svg">
-                                    <!-- cat next to him -->
-                                    <g class="cat">
-                                        <ellipse cx="14" cy="62" rx="12" ry="6" fill="#1f2d4a"/>
-                                        <circle cx="6" cy="56" r="5" fill="#1f2d4a"/>
-                                        <polygon points="2,52 4,46 7,52" fill="#1f2d4a"/>
-                                        <polygon points="9,52 11,46 13,52" fill="#1f2d4a"/>
-                                        <circle cx="4.5" cy="56" r="0.7" fill="#a9c4e8"/>
-                                        <circle cx="7.5" cy="56" r="0.7" fill="#a9c4e8"/>
-                                        <path class="cat-tail" d="M26 60 Q34 50 32 42" stroke="#1f2d4a" stroke-width="2.4" fill="none" stroke-linecap="round"/>
-                                        <line x1="10" y1="68" x2="10" y2="72" stroke="#1f2d4a" stroke-width="1.6"/>
-                                        <line x1="18" y1="68" x2="18" y2="72" stroke="#1f2d4a" stroke-width="1.6"/>
-                                    </g>
-                                    <!-- Asad (stickman), facing right toward Saamiyah -->
-                                    <g class="man" transform="translate(40 0)">
-                                        <circle cx="14" cy="22" r="8" fill="#eaf1fb" stroke="#1f2d4a" stroke-width="2"/>
-                                        <circle cx="11.5" cy="22" r="0.9" fill="#1f2d4a"/>
-                                        <circle cx="16.5" cy="22" r="0.9" fill="#1f2d4a"/>
-                                        <!-- soft smile -->
-                                        <path d="M11 26 Q14 28 17 26" stroke="#1f2d4a" stroke-width="1.2" fill="none" stroke-linecap="round"/>
-                                        <!-- body -->
-                                        <line x1="14" y1="30" x2="14" y2="54" stroke="#1f2d4a" stroke-width="2"/>
-                                        <!-- left arm (down by side) -->
-                                        <line x1="14" y1="36" x2="6"  y2="48" stroke="#1f2d4a" stroke-width="2" stroke-linecap="round"/>
-                                        <!-- right arm: extended out to hold her hand (meets at SVG x≈40) -->
-                                        <line x1="14" y1="36" x2="38" y2="44" stroke="#1f2d4a" stroke-width="2" stroke-linecap="round"/>
-                                        <!-- legs (standing) -->
-                                        <line x1="14" y1="54" x2="9"  y2="72" stroke="#1f2d4a" stroke-width="2" stroke-linecap="round"/>
-                                        <line x1="14" y1="54" x2="19" y2="72" stroke="#1f2d4a" stroke-width="2" stroke-linecap="round"/>
-                                    </g>
-                                </svg>
-                            </div>
+                                <!-- ─── Joined hands clasp (sits where their hands meet) ─── -->
+                                <g class="hands-clasp">
+                                    <ellipse cx="111" cy="70" rx="4.6" ry="3.2" fill="#eaf1fb" stroke="#2c3a52" stroke-width="0.9"/>
+                                    <path d="M108.5 70 Q111 68.5 113.5 70" stroke="#2c3a52" stroke-width="0.5" fill="none"/>
+                                    <path d="M108.5 71 Q111 72 113.5 71" stroke="#2c3a52" stroke-width="0.4" fill="none" opacity="0.6"/>
+                                </g>
 
-                            <!-- Joined hands marker (between them) -->
-                            <span class="joined-hands" aria-hidden="true">
-                                <svg viewBox="0 0 20 20">
-                                    <!-- two small clasped hand shapes -->
-                                    <path d="M3 12 Q3 8 7 8 L9 10 L9 14 L7 16 Q3 16 3 12 Z"   fill="#eaf1fb" stroke="#1f2d4a" stroke-width="1"/>
-                                    <path d="M17 12 Q17 8 13 8 L11 10 L11 14 L13 16 Q17 16 17 12 Z" fill="#eaf1fb" stroke="#1f2d4a" stroke-width="1"/>
-                                    <path d="M9 11 Q10 12 11 11 M9 13 Q10 14 11 13" stroke="#1f2d4a" stroke-width="0.6" fill="none"/>
-                                </svg>
-                            </span>
-
-                            <!-- Floating heart drifts up gently between them -->
-                            <span class="kiss-heart">♡</span>
+                                <!-- ─── Floating heart between them ─── -->
+                                <g class="float-heart">
+                                    <path d="M101 40 C 101 35, 106 33, 108 38 C 110 33, 115 35, 115 40 C 115 46, 108 51, 108 51 C 108 51, 101 46, 101 40 Z" fill="#d99baa" stroke="#2c3a52" stroke-width="0.8"/>
+                                </g>
+                            </svg>
                         </div>
                     </div>
                 </div>
@@ -1012,94 +1021,27 @@ onUnmounted(() => {
 .sign p { margin: 0; }
 .sign .name { font-size: 1.9rem; font-weight: 700; color: #1f2d4a; margin-top: 0.1em; }
 
-.replay {
-    position: absolute;
-    right: 1rem; bottom: 0.8rem;
-    background: rgba(234,241,251,0.6);
-    border: 1px solid rgba(31,45,74,0.25);
-    color: #4f6488;
-    padding: 0.2em 0.7em;
-    border-radius: 999px;
-    font-family: 'Caveat', cursive;
-    font-size: 1rem;
-    cursor: pointer;
-    z-index: 3;
-}
-.replay:hover { background: rgba(58,95,168,0.18); color: #1f2d4a; }
-
-/* ─── Walker scene ─── */
-.walker-track {
-    position: relative;
-    margin-top: 2rem;
-    height: 90px;
+/* ─── Couple scene (static) ─── */
+.couple-scene {
+    margin: 1.6rem auto 0;
+    width: 92%;
+    max-width: 360px;
     pointer-events: none;
-    overflow: visible;
 }
-.walker, .girl {
-    position: absolute;
-    bottom: 0;
-    width: 100px; height: 80px;
-}
-.char-svg { width: 100%; height: 100%; display: block; }
-.girl {
-    left: 52%;
-    width: 60px; height: 80px;
-    transform: scaleX(-1); /* she faces the man */
-}
-
-.walker {
-    left: -110px;
-}
-.walker.go { animation: walk-in 5.5s cubic-bezier(.4,.2,.2,1) forwards; }
-@keyframes walk-in {
-    0%   { left: -110px; }
-    72%  { left: calc(52% - 56px); }
-    100% { left: calc(52% - 56px); }
-}
-
-.walker .leg-l, .walker .leg-r { transform-origin: 14px 54px; }
-.walker.go .leg-l { animation: leg-l 0.5s steps(2) infinite; }
-.walker.go .leg-r { animation: leg-r 0.5s steps(2) infinite; }
-@keyframes leg-l { 0% { transform: rotate(20deg);} 100% { transform: rotate(-20deg);} }
-@keyframes leg-r { 0% { transform: rotate(-20deg);} 100% { transform: rotate(20deg);} }
-.walker .arm-l, .walker .arm-r { transform-origin: 14px 36px; }
-.walker.go .arm-l { animation: arm-l 0.5s steps(2) infinite; }
-.walker.go .arm-r { animation: arm-r 0.5s steps(2) infinite; }
-@keyframes arm-l { 0% { transform: rotate(-15deg);} 100% { transform: rotate(15deg);} }
-@keyframes arm-r { 0% { transform: rotate(15deg);} 100% { transform: rotate(-15deg);} }
-.walker .cat-tail { transform-origin: 26px 60px; }
-.walker.go .cat-tail { animation: tail 0.6s ease-in-out infinite; }
-@keyframes tail {
+.couple-svg { width: 100%; height: auto; display: block; }
+.cat-tail { transform-origin: 35px 102px; animation: tail-wag 1.4s ease-in-out infinite; }
+@keyframes tail-wag {
     0%, 100% { transform: rotate(0deg); }
-    50%      { transform: rotate(-15deg); }
+    50%      { transform: rotate(-12deg); }
 }
-/* When walker stops, lean toward the girl */
-.walker.go .man { animation: lean 1s ease-out 3.5s forwards; transform-origin: 14px 54px; }
-@keyframes lean {
-    0%   { transform: translate(40px, 0) rotate(0deg); }
-    100% { transform: translate(46px, -2px) rotate(-12deg); }
+.float-heart {
+    transform-box: view-box;
+    transform-origin: 50% 50%;
+    animation: heart-float 2.6s ease-in-out infinite;
 }
-/* girl tilts head toward him at the same time */
-.girl { transition: transform 0.4s ease; }
-.walker.go ~ .girl,
-.walker-track .walker.go + .girl { /* fallback selector */ }
-
-/* Kiss heart between man and girl */
-.kiss-heart {
-    position: absolute;
-    bottom: 56px;
-    left: calc(52% + 14px);
-    color: #d99baa;
-    font-size: 1.6rem;
-    opacity: 0;
-    text-shadow: 0 0 8px rgba(217,155,170,0.6);
-    pointer-events: none;
-}
-.kiss-heart.go { animation: kiss-rise 1.6s ease-out 4.0s forwards; }
-@keyframes kiss-rise {
-    0%   { opacity: 0; transform: translateY(0) scale(0.6); }
-    20%  { opacity: 1; transform: translateY(-6px) scale(1); }
-    100% { opacity: 0; transform: translateY(-44px) scale(1.4); }
+@keyframes heart-float {
+    0%, 100% { transform: translateY(0) scale(1); opacity: 0.92; }
+    50%      { transform: translateY(-4px) scale(1.08); opacity: 1; }
 }
 
 /* Heart particles (tulip clicks) */
@@ -1188,16 +1130,7 @@ onUnmounted(() => {
     .big { font-size: 1.25em; }
     .date-line.hijri { font-size: 0.85rem; }
 
-    .walker-track { height: 80px; margin-top: 1.4rem; }
-    .walker { width: 88px; height: 70px; left: -88px; }
-    .girl { width: 50px; height: 70px; }
-    @keyframes walk-in {
-        0%   { left: -88px; }
-        72%  { left: calc(52% - 50px); }
-        100% { left: calc(52% - 50px); }
-    }
-
-    .replay { right: 0.5rem; bottom: 0.4rem; font-size: 0.92rem; }
+    .couple-scene { max-width: 280px; margin-top: 1.2rem; }
     .close-btn { top: 0.4rem; right: 0.4rem; width: 26px; height: 26px; font-size: 1rem; }
 }
 
@@ -1226,9 +1159,7 @@ onUnmounted(() => {
 
 @media (prefers-reduced-motion: reduce) {
     .star, .breath, .tulip-btn:hover .tulip-svg,
-    .walker.go, .walker.go .leg-l, .walker.go .leg-r,
-    .walker.go .arm-l, .walker.go .arm-r,
-    .walker.go .cat-tail, .walker.go .man, .kiss-heart.go,
+    .cat-tail, .float-heart,
     .seal, .heart-particle, .loading .dots span, .sun-rays-svg {
         animation-duration: 0.001s !important;
         animation-iteration-count: 1 !important;
